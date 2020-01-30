@@ -24,14 +24,14 @@ namespace PaymentGatewayServices.ExtensionMethods
             this IQueryable<Payment> entity)
         {
             return entity.Select(x =>
-            new PaymentDto
-            {
-                PaymentIdentifier = x.PaymentIdentifier,
-                CardNumber = x.CardNumber,
-                CVV = x.CVV,
-                Amount = x.Amount,
-                Currency = x.Currency
-            });
+                new PaymentDto
+                {
+                    PaymentIdentifier = x.PaymentIdentifier,
+                    CardNumber = x.CardNumber,
+                    CVV = x.CVV,
+                    Amount = x.Amount,
+                    Currency = x.Currency
+                });
         }
     }
 }
