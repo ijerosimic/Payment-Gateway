@@ -1,7 +1,9 @@
-﻿namespace PaymentGatewayServices.DTOs
+﻿namespace PaymentGatewayDataAccess.Models
 {
-    public class PaymentDetails
+    public class Payment
     {
+        public int ID { get; set; }
+        public string PaymentIdentifier { get; set; }
         public string CardNumber { get; set; }
         public int CVV { get; set; }
         public decimal Amount { get; set; }

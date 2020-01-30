@@ -4,6 +4,8 @@ namespace PaymentGatewayServices
 {
     public interface IPaymentService
     {
-        public bool ProcessPayment(PaymentRequest paymentRequest);
+        public void AddPayment(PaymentDto payment);
+        public PaymentDto GetPaymentById(int id);
+        public int SaveChanges();
     }
 }

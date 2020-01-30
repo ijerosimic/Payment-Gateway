@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using PaymentGatewayDataAccess;
 using PaymentGatewayServices;
+using PaymentGatewayServices.Services;
 
 namespace PaymentGateway
 {
@@ -24,6 +25,9 @@ namespace PaymentGateway
                 options.UseInMemoryDatabase("PaymentGatewayDatabase"));
 
             services.AddScoped<IPaymentService, PaymentService>();
+            services.AddScoped<IPaymentProcessor, PaymentProcessor>();
+
+            services.AddApplicationInsightsTelemetry();
 
             services.AddControllers();
         }

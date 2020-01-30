@@ -13,7 +13,7 @@ namespace PaymentGatewayDataAccess
             using var ctx = new PaymentGatewayDBContext(
                 serviceProvider.GetRequiredService<DbContextOptions<PaymentGatewayDBContext>>());
 
-            if (ctx.PaymentHistory.Any())
+            if (ctx.Payments.Any())
                 return;
 
             var currencies = new string[]
@@ -23,7 +23,7 @@ namespace PaymentGatewayDataAccess
 
             for (var i = 1; i < 50; i++)
             {
-                ctx.Add(new PaymentHistory
+                ctx.Add(new Payment
                 {
                     ID = i,
                     PaymentIdentifier = new Random().Next(100000, 999999).ToString(),

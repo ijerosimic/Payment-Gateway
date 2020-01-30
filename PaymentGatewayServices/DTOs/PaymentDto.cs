@@ -3,9 +3,9 @@ using System;
 
 namespace PaymentGatewayServices.DTOs
 {
-    public class PaymentRequest
+    public class PaymentDto
     {
-        public string CardHolderFullName { get; set; }
+        public string PaymentIdentifier { get; set; }
         public string CardNumber { get; set; }
         public int CVV { get; set; }
         public int ExpirationMonth { get; set; }

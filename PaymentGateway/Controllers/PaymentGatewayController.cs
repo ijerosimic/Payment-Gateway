@@ -1,10 +1,7 @@
-﻿using System.Linq;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using PaymentGatewayDataAccess;
 using PaymentGatewayServices;
 using PaymentGatewayServices.DTOs;
-using PaymentGatewayServices.ExtensionMethods;
 
 namespace PaymentGateway.Controllers
 {
@@ -13,29 +10,29 @@ namespace PaymentGateway.Controllers
     public class PaymentGatewayController : ControllerBase
     {
         private readonly ILogger<PaymentGatewayController> _logger;
-        private readonly PaymentGatewayDBContext _ctx;
         private readonly IPaymentService _paymentService;
+        private readonly IPaymentProcessor _paymentProcessor;
 
         public PaymentGatewayController(
             ILogger<PaymentGatewayController> logger,
-            PaymentGatewayDBContext ctx,
-            IPaymentService paymentService)
+            IPaymentService paymentService,
+            IPaymentProcessor paymentProcessor)
         {
             _logger = logger;
-            _ctx = ctx;
             _paymentService = paymentService;
+            _paymentProcessor = paymentProcessor;
         }
 
         [HttpPost("SubmitPayment")]
-        public IActionResult SubmitPayment(PaymentRequest paymentRequest)
+        public IActionResult SubmitPayment(PaymentDto paymentRequest)
         {
-            if (_paymentService.ProcessPayment(paymentRequest) == false)
+            if (_paymentProcessor.ValidateRequest(paymentRequest) == false)
                 return StatusCode(400,
                     "Invalid data");
 
-            _ctx.Add(paymentRequest.MapToEntity());
+            _paymentService.AddPayment(paymentRequest);
 
-            if (_ctx.SaveChanges() > 0)
+            if (_paymentService.SaveChanges() > 0)
                 return StatusCode(200,
                     "Payment processed successfully");
 
@@ -46,9 +43,7 @@ namespace PaymentGateway.Controllers
         [HttpGet("PaymentDetails/{id}")]
         public IActionResult GetPaymentDetails(int id)
         {
-            var payment = _ctx.PaymentHistory
-                .Where(x => x.ID == id)
-                .FirstOrDefault();
+            var payment = _paymentService.GetPaymentById(id);
 
             if (payment is null)
                 return NotFound("Payment with specified ID not found");

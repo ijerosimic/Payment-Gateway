@@ -9,26 +9,18 @@ namespace PaymentGatewayTests.Helpers
     {
         public static void Seed(this PaymentGatewayDBContext ctx)
         {
-            if (ctx.PaymentHistory.Any())
+            if (ctx.Payments.Any())
                 return;
 
-            var currencies = new string[]
+            ctx.Add(new Payment
             {
-                "HRK", "EUR", "GBP", "USD", "JPY", "NOK", "CHF", "CZK"
-            };
-
-            for (var i = 1; i < 50; i++)
-            {
-                ctx.Add(new PaymentHistory
-                {
-                    ID = i,
-                    PaymentIdentifier = new Random().Next(100000, 999999).ToString(),
-                    CardNumber = new Random().Next(100000000, 999999999).ToString(),
-                    CVV = new Random().Next(000, 999),
-                    Amount = Math.Round(Convert.ToDecimal(new Random().NextDouble() * (99999.99 - 0.1) + 99999.99), 2),
-                    Currency = currencies[new Random().Next(currencies.Length - 1)]
-                });
-            };
+                ID = 1,
+                PaymentIdentifier = "12345",
+                CardNumber = "12345",
+                CVV = 12345,
+                Amount = 1.0M,
+                Currency = "EUR"
+            });
 
             ctx.SaveChanges();
         }

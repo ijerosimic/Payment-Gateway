@@ -10,6 +10,8 @@ namespace PaymentGatewayDataAccess
         {
         }
 
-        public DbSet<PaymentHistory> PaymentHistory { get; set; }
+        public DbContext Context => this;
+
+        public DbSet<Payment> Payments { get; set; }
     }
 }
