@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using PaymentGateway.DTOs;
-using PaymentGateway.Repository;
-using PaymentGateway.Repository.Models;
+using PaymentGatewayDataAccess;
+using PaymentGatewayServices;
+using PaymentGatewayServices.DTOs;
+using PaymentGatewayServices.ExtensionMethods;
 
 namespace PaymentGateway.Controllers
 {
@@ -16,35 +14,26 @@ namespace PaymentGateway.Controllers
     {
         private readonly ILogger<PaymentGatewayController> _logger;
         private readonly PaymentGatewayDBContext _ctx;
+        private readonly IPaymentService _paymentService;
 
         public PaymentGatewayController(
             ILogger<PaymentGatewayController> logger,
-            PaymentGatewayDBContext ctx)
+            PaymentGatewayDBContext ctx,
+            IPaymentService paymentService)
         {
             _logger = logger;
             _ctx = ctx;
+            _paymentService = paymentService;
         }
 
         [HttpPost("SubmitPayment")]
         public IActionResult SubmitPayment(PaymentRequest paymentRequest)
         {
-            if (string.IsNullOrWhiteSpace(paymentRequest.CardNumber) ||
-                paymentRequest.CVV < 1 ||
-                paymentRequest.ExpirationMonth < 1 ||
-                paymentRequest.ExpirationYear < DateTime.Now.Year ||
-                paymentRequest.Amount < 0 ||
-                string.IsNullOrWhiteSpace(paymentRequest.Currency) ||
-                string.IsNullOrWhiteSpace(paymentRequest.CardHolderFullName))
-                return BadRequest(paymentRequest);
+            if (_paymentService.ProcessPayment(paymentRequest) == false)
+                return StatusCode(400,
+                    "Invalid data");
 
-            _ctx.Add(new PaymentHistory
-            {
-                PaymentIdentifier = new Random().Next(100000, 999999).ToString(),
-                CardNumber = paymentRequest.CardNumber,
-                CVV = paymentRequest.CVV,
-                Amount = paymentRequest.Amount,
-                Currency = paymentRequest.Currency
-            });
+            _ctx.Add(paymentRequest.MapToEntity());
 
             if (_ctx.SaveChanges() > 0)
                 return StatusCode(200,

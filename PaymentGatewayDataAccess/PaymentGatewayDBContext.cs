@@ -1,8 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using PaymentGateway.Repository.Models;
-using System;
+using PaymentGatewayDataAccess.Models;
 
-namespace PaymentGateway.Repository
+namespace PaymentGatewayDataAccess
 {
     public class PaymentGatewayDBContext : DbContext
     {

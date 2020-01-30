@@ -1,5 +1,5 @@
-﻿using PaymentGateway.Repository;
-using PaymentGateway.Repository.Models;
+﻿using PaymentGatewayDataAccess;
+using PaymentGatewayDataAccess.Models;
 using System;
 using System.Linq;
 

@@ -1,6 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using PaymentGatewayDataAccess.Models;
+using System;
 
-namespace PaymentGateway.DTOs
+namespace PaymentGatewayServices.DTOs
 {
     public class PaymentRequest
     {

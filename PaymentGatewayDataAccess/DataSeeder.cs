@@ -1,12 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using PaymentGateway.Repository.Models;
+using PaymentGatewayDataAccess.Models;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
-namespace PaymentGateway.Repository
+namespace PaymentGatewayDataAccess
 {
     public class DataSeeder
     {

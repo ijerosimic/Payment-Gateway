@@ -1,9 +1,5 @@
 ﻿using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
-using PaymentGateway.Repository;
-using PaymentGateway.Repository.Models;
-using System;
-using System.Linq;
 
 namespace PaymentGatewayTests.Helpers
 {

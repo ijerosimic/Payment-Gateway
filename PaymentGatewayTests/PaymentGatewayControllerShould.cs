@@ -3,10 +3,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
 using PaymentGateway.Controllers;
-using PaymentGateway.Repository;
-using PaymentGateway.Repository.Models;
+using PaymentGatewayDataAccess;
+using PaymentGatewayDataAccess.Models;
+using PaymentGatewayServices;
 using PaymentGatewayTests.Helpers;
-using System;
 using Xunit;
 
 namespace PaymentGatewayTests
@@ -18,12 +18,14 @@ namespace PaymentGatewayTests
         {
             var options = InMemorySQLLite.CreateOptions<PaymentGatewayDBContext>();
             var fakeLogger = new Mock<ILogger<PaymentGatewayController>>().Object;
+            var fakeService = new Mock<IPaymentService>().Object;
 
             using var context = new PaymentGatewayDBContext(options);
             context.Database.EnsureCreated();
             context.Seed();
 
-            var controller = new PaymentGatewayController(fakeLogger, context);
+            var controller = new PaymentGatewayController(
+                fakeLogger, context, fakeService);
 
             var result = controller.GetPaymentDetails(1) as OkObjectResult;
 
@@ -36,12 +38,14 @@ namespace PaymentGatewayTests
         {
             var options = InMemorySQLLite.CreateOptions<PaymentGatewayDBContext>();
             var fakeLogger = new Mock<ILogger<PaymentGatewayController>>().Object;
+            var fakeService = new Mock<IPaymentService>().Object;
 
             using var context = new PaymentGatewayDBContext(options);
             context.Database.EnsureCreated();
             context.Seed();
 
-            var controller = new PaymentGatewayController(fakeLogger, context);
+            var controller = new PaymentGatewayController(
+                fakeLogger, context, fakeService);
 
             var result = controller.GetPaymentDetails(999999) as NotFoundObjectResult;
 

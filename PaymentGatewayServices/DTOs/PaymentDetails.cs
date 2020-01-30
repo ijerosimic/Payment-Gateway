@@ -1,4 +1,4 @@
-﻿namespace PaymentGateway.DTOs
+﻿namespace PaymentGatewayServices.DTOs
 {
     public class PaymentDetails
     {
