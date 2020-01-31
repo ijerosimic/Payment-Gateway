@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.ApplicationInsights;
 using PaymentGateway.DataAccess;
 
 namespace PaymentGateway
@@ -24,6 +26,15 @@ namespace PaymentGateway
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
+                .ConfigureLogging(logging =>
+                {
+                    logging.ClearProviders();
+                    logging.AddApplicationInsights(
+                        "935cfc58-e3a5-4c61-81b9-d1902e6b3f73");
+
+                    logging.AddFilter<ApplicationInsightsLoggerProvider>(
+                        "", LogLevel.Information);
+                })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();

@@ -34,6 +34,7 @@ namespace PaymentGateway
             services.AddScoped<IPaymentProcessor, PaymentProcessor>();
 
             services.AddApplicationInsightsTelemetry();
+            services.AddLogging();
 
             services.AddAuthentication(options =>
             {

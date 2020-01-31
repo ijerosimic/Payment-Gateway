@@ -84,7 +84,8 @@
         paymentData.currency = document.getElementById("currency").value;
         paymentData.paymentIdentifier = "1231414";
 
-        fetch('https://paymentsprocessor.azurewebsites.net/PaymentGateway/SubmitPayment', {
+        //fetch('https://paymentsprocessor.azurewebsites.net/PaymentGateway/SubmitPayment', {
+        fetch('https://localhost:44369/PaymentGateway/SubmitPayment', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
