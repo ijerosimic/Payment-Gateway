@@ -1,6 +1,5 @@
-﻿using PaymentGatewayDataAccess;
-using PaymentGatewayDataAccess.Models;
-using System;
+﻿using PaymentGateway.DataAccess;
+using PaymentGateway.DataAccess.Models;
 using System.Linq;
 
 namespace PaymentGatewayTests.Helpers

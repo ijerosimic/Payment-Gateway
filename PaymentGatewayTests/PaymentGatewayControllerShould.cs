@@ -2,10 +2,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
+using PaymentGateway.BusinessLogic;
 using PaymentGateway.Controllers;
-using PaymentGatewayDataAccess;
-using PaymentGatewayServices;
-using PaymentGatewayServices.DTOs;
+using PaymentGateway.DataAccess;
+using PaymentGateway.DTOs;
+using PaymentGateway.Services;
 using PaymentGatewayTests.Helpers;
 using Xunit;
 
