@@ -25,6 +25,7 @@ namespace PaymentGateway.Controllers
             _paymentProcessor = paymentProcessor;
         }
 
+        [Authorize]
         [HttpPost("SubmitPayment")]
         public IActionResult SubmitPayment(PaymentDto paymentRequest)
         {
