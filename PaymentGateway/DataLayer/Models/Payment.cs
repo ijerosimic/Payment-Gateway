@@ -1,4 +1,4 @@
-﻿namespace PaymentGatewayDataAccess.Models
+﻿namespace PaymentGateway.DataAccess.Models
 {
     public class Payment
     {

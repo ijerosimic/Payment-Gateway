@@ -1,7 +1,4 @@
-﻿using PaymentGatewayDataAccess.Models;
-using System;
-
-namespace PaymentGatewayServices.DTOs
+﻿namespace PaymentGateway.DTOs
 {
     public class PaymentDto
     {

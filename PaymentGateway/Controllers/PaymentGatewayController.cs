@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using PaymentGatewayServices;
-using PaymentGatewayServices.DTOs;
+using PaymentGateway.BusinessLogic;
+using PaymentGateway.DTOs;
+using PaymentGateway.Services;
 
 namespace PaymentGateway.Controllers
 {
@@ -40,6 +42,7 @@ namespace PaymentGateway.Controllers
                 "Error processing payment");
         }
 
+        [Authorize]
         [HttpGet("PaymentDetails/{id}")]
         public IActionResult GetPaymentDetails(int id)
         {

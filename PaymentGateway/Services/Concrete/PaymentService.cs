@@ -1,9 +1,9 @@
-﻿using PaymentGatewayDataAccess;
-using PaymentGatewayServices.DTOs;
-using PaymentGatewayServices.ExtensionMethods;
+﻿using PaymentGateway.DTOs;
+using PaymentGateway.ExtensionMethods;
+using PaymentGateway.DataAccess;
 using System.Linq;
 
-namespace PaymentGatewayServices.Services
+namespace PaymentGateway.Services.Concrete
 {
     public class PaymentService : IPaymentService
     {

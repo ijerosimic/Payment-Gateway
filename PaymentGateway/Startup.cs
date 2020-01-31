@@ -4,9 +4,14 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using PaymentGatewayDataAccess;
-using PaymentGatewayServices;
-using PaymentGatewayServices.Services;
+using PaymentGateway.Authentication;
+using PaymentGateway.Authentication.ExtensionMethods;
+using PaymentGateway.BusinessLogic;
+using PaymentGateway.BusinessLogic.Concrete;
+using PaymentGateway.DataAccess;
+using PaymentGateway.Services;
+using PaymentGateway.Services.Concrete;
+using static PaymentGateway.Authentication.ApiKeyAuthOptions;
 
 namespace PaymentGateway
 {
@@ -25,9 +30,17 @@ namespace PaymentGateway
                 options.UseInMemoryDatabase("PaymentGatewayDatabase"));
 
             services.AddScoped<IPaymentService, PaymentService>();
+            services.AddScoped<IApiKeyService, ApiKeyService>();
             services.AddScoped<IPaymentProcessor, PaymentProcessor>();
 
             services.AddApplicationInsightsTelemetry();
+
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = ApiKeyAuthenticationOptions.DefaultScheme;
+                options.DefaultChallengeScheme = ApiKeyAuthenticationOptions.DefaultScheme;
+            })
+           .AddApiKeySupport(options => { });
 
             services.AddControllers();
         }
@@ -43,6 +56,7 @@ namespace PaymentGateway
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

@@ -1,6 +1,6 @@
-﻿using PaymentGatewayServices.DTOs;
+﻿using PaymentGateway.DTOs;
 
-namespace PaymentGatewayServices
+namespace PaymentGateway.Services
 {
     public interface IPaymentService
     {
