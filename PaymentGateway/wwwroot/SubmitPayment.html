@@ -1,0 +1,103 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Payment processor</a>
+            </div>
+        </nav>
+    </header>
+    <main role="main" class="pb-3">
+        <div class="container">
+            <div class="col-md-4">
+                <h1>Payment form</h1>
+                <hr />
+            </div>
+            <div class="col-md-4">
+                <!--<div class="form-group">
+                    <label for="exampleInputEmail1">Card holder name</label>
+                    <input type="text" class="form-control" id="cardHolderName" aria-describedby="emailHelp">
+                </div>-->
+                <div class="form-row">
+                    <div class="col-md-7 mb-7">
+                        <label for="validationCustom03">Card Number</label>
+                        <input type="text" class="form-control" id="cardNumber" required>
+                    </div>
+                    <div class="col-md-5 mb-4">
+                        <label for="validationCustom04">CVV</label>
+                        <input type="text" class="form-control" id="cvv" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-md-7 mb-7">
+                        <label for="validationCustom03">Expiration month</label>
+                        <input type="number" class="form-control" id="expirationMonth" required>
+                    </div>
+                    <div class="col-md-5 mb-4">
+                        <label for="validationCustom04">Expiration year</label>
+                        <input type="number" class="form-control" id="expirationYear" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputPassword1">Amount</label>
+                    <input type="number" class="form-control" id="amount" required>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputPassword1">Currency</label>
+                    <select class="form-control" id="currency" required>
+                        <option>HRK</option>
+                        <option>EUR</option>
+                        <option>GBP</option>
+                        <option>USD</option>
+                        <option>JPY</option>
+                        <option>NOK</option>
+                        <option>CHF</option>
+                        <option>CZK</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputPassword1">API Key</label>
+                    <input type="password" class="form-control" id="apiKey" required>
+                </div>
+                <button type="button" class="btn btn-primary" id="btnSubmit">Submit</button>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
+<script>
+    const paymentData = {};
+    const btn = document.getElementById("btnSubmit");
+    btn.addEventListener("click", () => {
+        //paymentData.cardHolderName = document.getElementById("cardHolderName").value;
+        paymentData.cardNumber = document.getElementById("cardNumber").value;
+        paymentData.cvv = parseInt(document.getElementById("cvv").value);
+        paymentData.expiratonMonth = document.getElementById("expirationMonth").value;
+        paymentData.expirationDate = document.getElementById("expirationYear").value;
+        paymentData.amount = parseFloat(document.getElementById("amount").value);
+        paymentData.currency = document.getElementById("currency").value;
+        paymentData.paymentIdentifier = "1231414";
+
+        fetch('https://localhost:44369/PaymentGateway/SubmitPayment', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'PaymentGatewayApiKey': document.getElementById("apiKey").value
+            },
+            body: JSON.stringify(paymentData),
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log('Success:', data);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+    })
+</script>

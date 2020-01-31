@@ -50,9 +50,10 @@ namespace PaymentGateway.Controllers
             var payment = _paymentService.GetPaymentById(id);
 
             if (payment is null)
-                return NotFound("Payment with specified ID not found");
+                return StatusCode(404, 
+                    "Payment with specified ID not found");
 
-            return Ok(payment);
+            return StatusCode(200, payment);
         }
     }
 }

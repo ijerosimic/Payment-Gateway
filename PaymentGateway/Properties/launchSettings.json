@@ -12,7 +12,7 @@
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
-      "launchUrl": "paymentgateway/paymentdetails/1",
+      "launchUrl": "SubmitPayment.html",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
