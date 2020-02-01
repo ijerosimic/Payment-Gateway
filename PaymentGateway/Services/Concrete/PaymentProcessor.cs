@@ -1,9 +1,8 @@
-﻿
-using Microsoft.Extensions.Logging;
-using PaymentGateway.Services.BussinessLogic.Helpers;
-using PaymentGateway.Services.Data.DTOs;
+﻿using Microsoft.Extensions.Logging;
+using PaymentGateway.Repository.DTOs;
+using PaymentGateway.Services.Helpers;
 
-namespace PaymentGateway.Services.BusinessLogic.Concrete
+namespace PaymentGateway.Services.Concrete
 {
     public class PaymentProcessor : IPaymentProcessor
     {

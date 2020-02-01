@@ -3,9 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
 using PaymentGateway.Controllers;
-using PaymentGateway.Services.BusinessLogic;
-using PaymentGateway.Services.Data;
-using PaymentGateway.Services.Data.DTOs;
+using PaymentGateway.Repository;
+using PaymentGateway.Repository.DTOs;
+using PaymentGateway.Services;
 using System.Threading.Tasks;
 using Xunit;
 

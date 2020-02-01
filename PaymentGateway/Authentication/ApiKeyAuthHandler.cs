@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using PaymentGateway.Services.Data;
+using PaymentGateway.Repository;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;

@@ -4,7 +4,7 @@ using PaymentGateway.DataAccess;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace PaymentGateway.Services.Data.Concrete
+namespace PaymentGateway.Repository.Concrete
 {
     public class ApiKeyRepository : IApiKeyRepository
     {

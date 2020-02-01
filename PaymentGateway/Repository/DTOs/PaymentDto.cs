@@ -1,4 +1,4 @@
-﻿namespace PaymentGateway.Services.Data.DTOs
+﻿namespace PaymentGateway.Repository.DTOs
 {
     public class PaymentDto
     {

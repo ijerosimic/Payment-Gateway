@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace PaymentGateway.Services.BussinessLogic.Helpers
+namespace PaymentGateway.Services.Helpers
 {
     public class PaymentDataValidator
     {

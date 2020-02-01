@@ -1,7 +1,7 @@
-﻿using PaymentGateway.Services.Data.DTOs;
+﻿using PaymentGateway.Repository.DTOs;
 using System.Threading.Tasks;
 
-namespace PaymentGateway.Services.Data
+namespace PaymentGateway.Repository
 {
     public interface IPaymentRepository
     {

@@ -2,8 +2,8 @@
 using Microsoft.Extensions.Logging;
 using Moq;
 using PaymentGateway.DataAccess;
-using PaymentGateway.Services.Data;
-using PaymentGateway.Services.Data.Concrete;
+using PaymentGateway.Repository;
+using PaymentGateway.Repository.Concrete;
 using PaymentGatewayTests.Helpers;
 using System;
 using Xunit;

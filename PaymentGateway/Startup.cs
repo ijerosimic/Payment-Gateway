@@ -6,10 +6,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using PaymentGateway.Authentication.ExtensionMethods;
 using PaymentGateway.DataAccess;
-using PaymentGateway.Services.BusinessLogic;
-using PaymentGateway.Services.BusinessLogic.Concrete;
-using PaymentGateway.Services.Data;
-using PaymentGateway.Services.Data.Concrete;
+using PaymentGateway.Repository;
+using PaymentGateway.Repository.Concrete;
+using PaymentGateway.Services;
+using PaymentGateway.Services.Concrete;
 using static PaymentGateway.Authentication.ApiKeyAuthOptions;
 
 namespace PaymentGateway

@@ -1,12 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PaymentGateway.DataAccess;
-using PaymentGateway.Services.Data;
-using PaymentGateway.Services.Data.Concrete;
-using PaymentGateway.Services.Data.DTOs;
+using PaymentGateway.Repository;
+using PaymentGateway.Repository.Concrete;
+using PaymentGateway.Repository.DTOs;
 using PaymentGatewayTests.Helpers;
 using System;
 using System.Linq;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace PaymentGatewayTests

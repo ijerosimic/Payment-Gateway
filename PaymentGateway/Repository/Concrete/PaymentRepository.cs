@@ -1,11 +1,11 @@
 ﻿using PaymentGateway.DataAccess;
 using System.Linq;
-using PaymentGateway.Services.Data.DTOs;
-using PaymentGateway.Services.Data.ExtensionMethods;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using PaymentGateway.Repository.DTOs;
+using PaymentGateway.Repository.ExtensionMethods;
 
-namespace PaymentGateway.Services.Data.Concrete
+namespace PaymentGateway.Repository.Concrete
 {
     public class PaymentRepository : IPaymentRepository
     {

@@ -1,4 +1,4 @@
-﻿namespace PaymentGateway.Services.BussinessLogic.Concrete
+﻿namespace PaymentGateway.Services.Concrete
 {
     public class PaymentSubmitter : IPaymentSubmitter
     {

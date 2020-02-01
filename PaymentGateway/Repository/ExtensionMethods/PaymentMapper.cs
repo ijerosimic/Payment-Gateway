@@ -1,9 +1,8 @@
 ﻿using PaymentGateway.DataAccess.Models;
-using PaymentGateway.Services.Data.DTOs;
-using System;
+using PaymentGateway.Repository.DTOs;
 using System.Linq;
 
-namespace PaymentGateway.Services.Data.ExtensionMethods
+namespace PaymentGateway.Repository.ExtensionMethods
 {
     public static class PaymentMapper
     {

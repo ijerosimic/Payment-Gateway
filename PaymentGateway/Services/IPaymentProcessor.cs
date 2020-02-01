@@ -1,7 +1,7 @@
 ﻿
-using PaymentGateway.Services.Data.DTOs;
+using PaymentGateway.Repository.DTOs;
 
-namespace PaymentGateway.Services.BusinessLogic
+namespace PaymentGateway.Services
 {
     public interface IPaymentProcessor
     {

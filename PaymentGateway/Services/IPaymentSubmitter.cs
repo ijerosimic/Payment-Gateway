@@ -1,4 +1,4 @@
-﻿namespace PaymentGateway.Services.BussinessLogic
+﻿namespace PaymentGateway.Services
 {
     public interface IPaymentSubmitter
     {

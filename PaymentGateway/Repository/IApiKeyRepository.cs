@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace PaymentGateway.Services.Data
+namespace PaymentGateway.Repository
 {
     public interface IApiKeyRepository
     {
