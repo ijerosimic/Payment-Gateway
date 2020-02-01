@@ -51,26 +51,26 @@ namespace PaymentGatewayTests
         [InlineData("12345")]
         [InlineData("24242")]
         [InlineData("62622")]
-        public void ReturnCorrectPayment_WhenGivenValidIdentifier(string identifier)
+        public void ReturnCorrectPayment_WhenGivenValidIdentifier(string validIdentifier)
         {
-            _context.SeedPayments(identifier);
+            _context.SeedPayments(validIdentifier);
 
-            var actual = _sut.GetPaymentByPaymentIdentifier(identifier);
+            var actual = _sut.GetPaymentByPaymentIdentifier(validIdentifier);
 
             Assert.NotNull(actual);
             Assert.IsType<PaymentDto>(actual);
-            Assert.Equal(identifier, actual.PaymentIdentifier);
+            Assert.Equal(validIdentifier, actual.PaymentIdentifier);
         }
 
         [Theory]
-        [InlineData("12345")]
-        [InlineData("24242")]
-        [InlineData("62622")]
-        public void ReturnNull_WhenGivenInvalidIdentifier(string identifier)
+        [InlineData("")]
+        [InlineData(" ")]
+        [InlineData(null)]
+        public void ReturnNull_WhenGivenInvalidIdentifier(string invalidIdentifier)
         {
-            _context.SeedPayments(identifier);
+            _context.SeedPayments("12345");
 
-            var actual = _sut.GetPaymentByPaymentIdentifier(null);
+            var actual = _sut.GetPaymentByPaymentIdentifier(invalidIdentifier);
 
             Assert.Null(actual);
         }

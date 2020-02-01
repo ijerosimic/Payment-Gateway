@@ -5,11 +5,12 @@ using PaymentGateway.DataAccess;
 using PaymentGateway.Services.Data;
 using PaymentGateway.Services.Data.Concrete;
 using PaymentGatewayTests.Helpers;
+using System;
 using Xunit;
 
 namespace PaymentGatewayTests
 {
-    public class ApiKeysRepositoryShould
+    public class ApiKeysRepositoryShould : IDisposable
     {
         private readonly DbContextOptions<PaymentGatewayDBContext> _options;
         private readonly PaymentGatewayDBContext _context;
@@ -30,26 +31,31 @@ namespace PaymentGatewayTests
         [InlineData("12345")]
         [InlineData("24242")]
         [InlineData("62622")]
-        public async void ReturnTrue_IfKeyIsValid(string key)
+        public async void ReturnTrue_IfKeyIsValid(string validKey)
         {
-            _context.SeedKeys(key);
+            _context.SeedKeys(validKey);
 
-            var actual = await _sut.IsKeyValid(key);
+            var actual = await _sut.IsKeyValid(validKey);
 
             Assert.True(actual);
         }
 
         [Theory]
-        [InlineData("12345")]
-        [InlineData("24242")]
-        [InlineData("62622")]
-        public async void ReturnFalse_IfKeyIsInvalid(string key)
+        [InlineData("")]
+        [InlineData(" ")]
+        [InlineData(null)]
+        public async void ReturnFalse_IfKeyIsInvalid(string invalidKey)
         {
-            _context.SeedKeys(key);
+            _context.SeedKeys("12345");
 
-            var actual = await _sut.IsKeyValid(null);
+            var actual = await _sut.IsKeyValid(invalidKey);
 
             Assert.False(actual);
+        }
+
+        public void Dispose()
+        {
+            _context.Dispose();
         }
     }
 }
