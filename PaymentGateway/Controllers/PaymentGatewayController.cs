@@ -30,16 +30,16 @@ namespace PaymentGateway.Controllers
         [HttpPost("SubmitPayment")]
         public IActionResult SubmitPayment(PaymentDto payment)
         {
-            _logger.LogInformation(
-                "Payment submitted: {@paymentRequest}", payment);
-
             if (_paymentProcessor.ValidateRequest(payment) == false)
-                return BadRequest();
+                return BadRequest("Invalid payment data");
 
             //contact bank
 
             _paymentService.AddPayment(payment);
             _paymentService.SaveChanges();
+
+            _logger.LogInformation(
+               "Payment submitted: {@paymentRequest}", payment);
 
             return Ok("Sucessfully processed payment");
         }
