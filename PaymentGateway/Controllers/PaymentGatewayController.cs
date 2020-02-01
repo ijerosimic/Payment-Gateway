@@ -1,9 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using PaymentGateway.BusinessLogic;
-using PaymentGateway.DTOs;
-using PaymentGateway.Services;
+using PaymentGateway.Services.BusinessLogic;
+using PaymentGateway.Services.BussinessLogic.Concrete;
+using PaymentGateway.Services.Data;
+using PaymentGateway.Services.Data.DTOs;
 
 namespace PaymentGateway.Controllers
 {
@@ -27,31 +28,33 @@ namespace PaymentGateway.Controllers
 
         [Authorize]
         [HttpPost("SubmitPayment")]
-        public IActionResult SubmitPayment(PaymentDto paymentRequest)
+        public IActionResult SubmitPayment(PaymentDto payment)
         {
-            if (_paymentProcessor.ValidateRequest(paymentRequest) == false)
-                return StatusCode(400,
-                    "Invalid data");
+            _logger.LogInformation(
+                "Payment submitted: {@paymentRequest}", payment);
 
-            _paymentService.AddPayment(paymentRequest);
+            if (_paymentProcessor.ValidateRequest(payment) == false)
+                return BadRequest();
 
-            if (_paymentService.SaveChanges() > 0)
-                return StatusCode(200,
-                    "Payment processed successfully");
+            //contact bank
 
-            return StatusCode(500,
-                "Error processing payment");
+            _paymentService.AddPayment(payment);
+            _paymentService.SaveChanges();
+
+            return Ok("Sucessfully processed payment");
         }
 
         [Authorize]
         [HttpGet("PaymentDetails/{id}")]
-        public IActionResult GetPaymentDetails(int id)
+        public IActionResult GetPaymentDetails(string requestId)
         {
-            var payment = _paymentService.GetPaymentById(id);
+            var payment = _paymentService.GetPaymentById(requestId);
 
             if (payment is null)
-                return StatusCode(404, 
-                    "Payment with specified ID not found");
+                return StatusCode(404, "Payment with specified ID not found");
+
+            _logger.LogInformation(
+                "Payment details requested: {@payment}", payment);
 
             return StatusCode(200, payment);
         }

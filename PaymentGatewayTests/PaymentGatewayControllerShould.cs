@@ -2,11 +2,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
-using PaymentGateway.BusinessLogic;
 using PaymentGateway.Controllers;
 using PaymentGateway.DataAccess;
-using PaymentGateway.DTOs;
-using PaymentGateway.Services;
+using PaymentGateway.Services.BusinessLogic;
+using PaymentGateway.Services.Data;
+using PaymentGateway.Services.Data.DTOs;
 using PaymentGatewayTests.Helpers;
 using Xunit;
 
@@ -14,17 +14,25 @@ namespace PaymentGatewayTests
 {
     public class PaymentGatewayControllerShould
     {
+        private readonly Mock<ILogger<PaymentGatewayController>> _fakeLogger;
+        private readonly Mock<IPaymentProcessor> _fakeProcessor;
+        private readonly Mock<IPaymentService> _fakeService;
+        private readonly PaymentGatewayController _controller;
+
+        public PaymentGatewayControllerShould()
+        {
+            _fakeLogger = new Mock<ILogger<PaymentGatewayController>>();
+            _fakeProcessor = new Mock<IPaymentProcessor>();
+            _fakeService = new Mock<IPaymentService>();
+            _controller = new PaymentGatewayController(
+                _fakeLogger.Object, _fakeService.Object, _fakeProcessor.Object);
+        }
+
         [Fact]
         public void ReturnExistingPayment_WhenGivenValidID()
         {
-            var options = InMemorySQLLite.CreateOptions<PaymentGatewayDBContext>();
-
-            var fakeLogger = new Mock<ILogger<PaymentGatewayController>>().Object;
-            var fakeProcessor = new Mock<IPaymentProcessor>();
-            var fakeService = new Mock<IPaymentService>();
-
-            fakeService
-                .Setup(x => x.GetPaymentById(1))
+            _fakeService
+                .Setup(x => x.GetPaymentById("12345"))
                             .Returns(new PaymentDto
                             {
                                 PaymentIdentifier = "12345",
@@ -34,40 +42,24 @@ namespace PaymentGatewayTests
                                 Currency = "EUR"
                             });
 
-            using var context = new PaymentGatewayDBContext(options);
-            context.Database.EnsureCreated();
-            context.Seed();
+            var expected = StatusCodes.Status200OK;
+            var actual = _controller.GetPaymentDetails("12345") as ObjectResult;
 
-            var controller = new PaymentGatewayController(
-                fakeLogger, fakeService.Object, fakeProcessor.Object);
-
-            var result = controller.GetPaymentDetails(1) as ObjectResult;
-            
-            Assert.Equal(result.StatusCode, StatusCodes.Status200OK);
-            Assert.IsType<PaymentDto>(result.Value);
+            Assert.Equal(expected, actual.StatusCode);
+            Assert.IsType<PaymentDto>(actual.Value);
         }
 
-        [Fact]
-        public void Return404_WhenGivenInvalidID()
+        [Theory]
+        [InlineData("")]
+        [InlineData(" ")]
+        [InlineData(null)]
+        public void Return404_WhenGivenInvalidID(string id)
         {
-            var options = InMemorySQLLite.CreateOptions<PaymentGatewayDBContext>();
+            var exptected = StatusCodes.Status404NotFound;
+            var actual = _controller.GetPaymentDetails(id) as ObjectResult;
 
-            var fakeLogger = new Mock<ILogger<PaymentGatewayController>>().Object;
-
-            var fakeProcessor = new Mock<IPaymentProcessor>();
-            var fakeService = new Mock<IPaymentService>();
-
-            using var context = new PaymentGatewayDBContext(options);
-            context.Database.EnsureCreated();
-            context.Seed();
-
-            var controller = new PaymentGatewayController(
-                fakeLogger, fakeService.Object, fakeProcessor.Object);
-
-            var result = controller.GetPaymentDetails(999999) as ObjectResult;
-
-            Assert.Equal(result.StatusCode, StatusCodes.Status404NotFound);
-            Assert.Equal("Payment with specified ID not found", result.Value);
+            Assert.Equal(exptected, actual.StatusCode);
+            Assert.Equal("Payment with specified ID not found", actual.Value);
         }
     }
 }

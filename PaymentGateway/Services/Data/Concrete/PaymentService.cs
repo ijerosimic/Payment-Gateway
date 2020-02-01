@@ -9,21 +9,15 @@ namespace PaymentGateway.Services.Data.Concrete
     public class PaymentService : IPaymentService
     {
         private readonly PaymentGatewayDBContext _ctx;
-        private readonly ILogger<PaymentService> _logger;
 
-        public PaymentService(
-            PaymentGatewayDBContext ctx,
-            ILogger<PaymentService> logger)
+        public PaymentService(PaymentGatewayDBContext ctx)
         {
             _ctx = ctx;
-            _logger = logger;
         }
 
         public void AddPayment(PaymentDto payment)
         {
             _ctx.Add(payment.MapToEntity());
-
-            _logger.LogInformation("New payment submitted. Card number: {@cardNumber}", payment);
         }
 
         public PaymentDto GetPaymentById(string requestId)
