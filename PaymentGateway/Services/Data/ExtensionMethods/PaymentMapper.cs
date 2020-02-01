@@ -12,7 +12,7 @@ namespace PaymentGateway.Services.Data.ExtensionMethods
         {
             return new Payment
             {
-                PaymentIdentifier = new Random().Next(100000, 999999).ToString(),
+                PaymentIdentifier = paymentRequest.PaymentIdentifier,
                 CardNumber = paymentRequest.CardNumber,
                 CVV = paymentRequest.CVV,
                 Amount = paymentRequest.Amount,

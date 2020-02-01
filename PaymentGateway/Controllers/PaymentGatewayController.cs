@@ -13,16 +13,16 @@ namespace PaymentGateway.Controllers
     public class PaymentGatewayController : ControllerBase
     {
         private readonly ILogger<PaymentGatewayController> _logger;
-        private readonly IPaymentService _paymentService;
+        private readonly IPaymentRepository _paymentRepository;
         private readonly IPaymentProcessor _paymentProcessor;
 
         public PaymentGatewayController(
             ILogger<PaymentGatewayController> logger,
-            IPaymentService paymentService,
+            IPaymentRepository paymentService,
             IPaymentProcessor paymentProcessor)
         {
             _logger = logger;
-            _paymentService = paymentService;
+            _paymentRepository = paymentService;
             _paymentProcessor = paymentProcessor;
         }
 
@@ -35,8 +35,7 @@ namespace PaymentGateway.Controllers
 
             //contact bank
 
-            _paymentService.AddPayment(payment);
-            _paymentService.SaveChanges();
+            _paymentRepository.SavePaymentToDatabase(payment);
 
             _logger.LogInformation(
                "Payment submitted: {@paymentRequest}", payment);
@@ -48,7 +47,7 @@ namespace PaymentGateway.Controllers
         [HttpGet("PaymentDetails/{id}")]
         public IActionResult GetPaymentDetails(string requestId)
         {
-            var payment = _paymentService.GetPaymentById(requestId);
+            var payment = _paymentRepository.GetPaymentByPaymentIdentifier(requestId);
 
             if (payment is null)
                 return StatusCode(404, "Payment with specified ID not found");

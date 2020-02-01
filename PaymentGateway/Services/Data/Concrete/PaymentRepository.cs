@@ -2,35 +2,31 @@
 using System.Linq;
 using PaymentGateway.Services.Data.DTOs;
 using PaymentGateway.Services.Data.ExtensionMethods;
-using Microsoft.Extensions.Logging;
 
 namespace PaymentGateway.Services.Data.Concrete
 {
-    public class PaymentService : IPaymentService
+    public class PaymentRepository : IPaymentRepository
     {
         private readonly PaymentGatewayDBContext _ctx;
 
-        public PaymentService(PaymentGatewayDBContext ctx)
+        public PaymentRepository(PaymentGatewayDBContext ctx)
         {
             _ctx = ctx;
         }
 
-        public void AddPayment(PaymentDto payment)
+        public int SavePaymentToDatabase(PaymentDto payment)
         {
             _ctx.Add(payment.MapToEntity());
+
+            return _ctx.SaveChanges();
         }
 
-        public PaymentDto GetPaymentById(string requestId)
+        public PaymentDto GetPaymentByPaymentIdentifier(string paymentIdentifier)
         {
             return _ctx.Payments
-               .Where(x => x.PaymentIdentifier.Equals(requestId))
+               .Where(x => x.PaymentIdentifier.Equals(paymentIdentifier))
                .MapToDto()
                .FirstOrDefault();
-        }
-
-        public int SaveChanges()
-        {
-            return _ctx.SaveChanges();
         }
     }
 }

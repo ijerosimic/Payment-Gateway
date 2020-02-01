@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace PaymentGateway.Services.Data.Concrete
 {
-    public class ApiKeyService : IApiKeyService
+    public class ApiKeyRepository : IApiKeyRepository
     {
         private readonly PaymentGatewayDBContext _ctx;
-        private readonly ILogger<ApiKeyService> _logger;
+        private readonly ILogger<ApiKeyRepository> _logger;
 
-        public ApiKeyService(
+        public ApiKeyRepository(
             PaymentGatewayDBContext ctx, 
-            ILogger<ApiKeyService> logger)
+            ILogger<ApiKeyRepository> logger)
         {
             _ctx = ctx;
             _logger = logger;

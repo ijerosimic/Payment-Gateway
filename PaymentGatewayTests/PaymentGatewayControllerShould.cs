@@ -14,20 +14,20 @@ namespace PaymentGatewayTests
     {
         private readonly Mock<ILogger<PaymentGatewayController>> _fakeLogger;
         private readonly Mock<IPaymentProcessor> _fakeProcessor;
-        private readonly Mock<IPaymentService> _fakeService;
+        private readonly Mock<IPaymentRepository> _fakeRepository;
         private readonly PaymentGatewayController _sut;
 
         public PaymentGatewayControllerShould()
         {
             _fakeLogger = new Mock<ILogger<PaymentGatewayController>>();
             _fakeProcessor = new Mock<IPaymentProcessor>();
-            _fakeService = new Mock<IPaymentService>();
+            _fakeRepository = new Mock<IPaymentRepository>();
             _sut = new PaymentGatewayController(
-                _fakeLogger.Object, _fakeService.Object, _fakeProcessor.Object);
+                _fakeLogger.Object, _fakeRepository.Object, _fakeProcessor.Object);
         }
 
         [Fact]
-        public void ReturnsOkResult_WhenGivenValidPayment()
+        public void ReturnOkResult_WhenGivenValidPayment()
         {
             _fakeProcessor
                 .Setup(x => x.ValidateRequest(null))
@@ -43,8 +43,8 @@ namespace PaymentGatewayTests
         [Fact]
         public void ReturnExistingPayment_WhenGivenValidID()
         {
-            _fakeService
-                .Setup(x => x.GetPaymentById("12345"))
+            _fakeRepository
+                .Setup(x => x.GetPaymentByPaymentIdentifier("12345"))
                 .Returns(new PaymentDto());
 
             var expected = StatusCodes.Status200OK;
@@ -58,10 +58,10 @@ namespace PaymentGatewayTests
         [InlineData("")]
         [InlineData(" ")]
         [InlineData(null)]
-        public void Return404_WhenGivenInvalidID(string id)
+        public void ReturnNotFoundResult_WhenGivenInvalidID(string id)
         {
-            _fakeService
-              .Setup(x => x.GetPaymentById(id))
+            _fakeRepository
+              .Setup(x => x.GetPaymentByPaymentIdentifier(id))
               .Returns(() => null);
 
             var exptected = StatusCodes.Status404NotFound;

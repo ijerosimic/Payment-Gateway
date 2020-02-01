@@ -28,8 +28,8 @@ namespace PaymentGateway
             services.AddDbContext<PaymentGatewayDBContext>(options =>
                 options.UseInMemoryDatabase("PaymentGatewayDatabase"));
 
-            services.AddScoped<IPaymentService, PaymentService>();
-            services.AddScoped<IApiKeyService, ApiKeyService>();
+            services.AddScoped<IPaymentRepository, PaymentRepository>();
+            services.AddScoped<IApiKeyRepository, ApiKeyRepository>();
             services.AddScoped<IPaymentProcessor, PaymentProcessor>();
 
             services.AddApplicationInsightsTelemetry();

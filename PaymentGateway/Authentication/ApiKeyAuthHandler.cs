@@ -14,14 +14,14 @@ namespace PaymentGateway.Authentication
     public class ApiKeyAuthHandler : AuthenticationHandler<ApiKeyAuthenticationOptions>
     {
         private const string ApiKeyHeaderName = "PaymentGatewayApiKey";
-        private readonly IApiKeyService _keyService;
+        private readonly IApiKeyRepository _keyService;
 
         public ApiKeyAuthHandler(
             IOptionsMonitor<ApiKeyAuthenticationOptions> options,
             ILoggerFactory logger,
             UrlEncoder encoder,
             ISystemClock clock,
-            IApiKeyService keyService)
+            IApiKeyRepository keyService)
             : base(options, logger, encoder, clock)
         {
             _keyService = keyService;
