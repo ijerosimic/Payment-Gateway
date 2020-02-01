@@ -46,7 +46,7 @@ namespace PaymentGatewayTests
         {
             _fakeRepository
                 .Setup(x => x.GetPaymentAsync("12345"))
-                .Returns(new Task<PaymentDto>(() => new PaymentDto()));
+                .Returns(Task.FromResult(new PaymentDto()));
 
             var expected = StatusCodes.Status200OK;
             var actual = await _sut.GetPaymentDetails("12345") as ObjectResult;
@@ -63,7 +63,7 @@ namespace PaymentGatewayTests
         {
             _fakeRepository
               .Setup(x => x.GetPaymentAsync(id))
-              .Returns(new Task<PaymentDto>(() => null));
+              .Returns(Task.FromResult<PaymentDto>(null));
 
             var exptected = StatusCodes.Status404NotFound;
             var actual = await _sut.GetPaymentDetails(id) as ObjectResult;
