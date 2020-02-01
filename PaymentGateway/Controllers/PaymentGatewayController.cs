@@ -5,6 +5,7 @@ using PaymentGateway.Services.BusinessLogic;
 using PaymentGateway.Services.BussinessLogic.Concrete;
 using PaymentGateway.Services.Data;
 using PaymentGateway.Services.Data.DTOs;
+using System.Threading.Tasks;
 
 namespace PaymentGateway.Controllers
 {
@@ -28,14 +29,14 @@ namespace PaymentGateway.Controllers
 
         [Authorize]
         [HttpPost("SubmitPayment")]
-        public IActionResult SubmitPayment(PaymentDto payment)
+        public async Task<IActionResult> SubmitPayment(PaymentDto payment)
         {
             if (_paymentProcessor.ValidateRequest(payment) == false)
                 return BadRequest("Invalid payment data");
 
             //contact bank
 
-            _paymentRepository.SavePaymentToDatabase(payment);
+            await _paymentRepository.SavePaymentAsync(payment);
 
             _logger.LogInformation(
                "Payment submitted: {@paymentRequest}", payment);
@@ -45,17 +46,17 @@ namespace PaymentGateway.Controllers
 
         [Authorize]
         [HttpGet("PaymentDetails/{id}")]
-        public IActionResult GetPaymentDetails(string requestId)
+        public async Task<IActionResult> GetPaymentDetails(string requestId)
         {
-            var payment = _paymentRepository.GetPaymentByPaymentIdentifier(requestId);
+            var payment = await _paymentRepository.GetPaymentAsync(requestId);
 
             if (payment is null)
-                return StatusCode(404, "Payment with specified ID not found");
+                return NotFound("Payment with specified ID not found");
 
             _logger.LogInformation(
                 "Payment details requested: {@payment}", payment);
 
-            return StatusCode(200, payment);
+            return Ok(payment);
         }
     }
 }

@@ -42,7 +42,7 @@ namespace PaymentGateway.Authentication
                 return AuthenticateResult.NoResult();
             }
 
-            if (await _keyService.IsKeyValid(providedApiKey))
+            if (await _keyService.IsKeyValidAsync(providedApiKey))
             {
                 var claims = new List<Claim>
                 {

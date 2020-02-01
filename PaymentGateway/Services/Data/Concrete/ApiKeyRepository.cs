@@ -19,7 +19,7 @@ namespace PaymentGateway.Services.Data.Concrete
             _logger = logger;
         }
 
-        public async Task<bool> IsKeyValid(string key)
+        public async Task<bool> IsKeyValidAsync(string key)
         {
             _logger.LogInformation("Validating API key: {@key}", key);
 

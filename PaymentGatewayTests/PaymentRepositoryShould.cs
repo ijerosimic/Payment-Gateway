@@ -6,6 +6,7 @@ using PaymentGateway.Services.Data.DTOs;
 using PaymentGatewayTests.Helpers;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace PaymentGatewayTests
@@ -26,10 +27,10 @@ namespace PaymentGatewayTests
         }
 
         [Fact]
-        public void SavePayment_ToDatabase()
+        public async void SavePayment_ToDatabase()
         {
             var expected = 1;
-            var actual = _sut.SavePaymentToDatabase(
+            var actual = await _sut.SavePaymentAsync(
                 new PaymentDto
                 {
                     PaymentIdentifier = "12345",
@@ -39,9 +40,9 @@ namespace PaymentGatewayTests
                     Currency = "EUR"
                 });
 
-            var paymentSaved = _context.Payments
+            var paymentSaved = await _context.Payments
                 .Where(x => x.PaymentIdentifier == "12345")
-                .Any();
+                .AnyAsync();
 
             Assert.Equal(expected, actual);
             Assert.True(paymentSaved);
@@ -51,11 +52,11 @@ namespace PaymentGatewayTests
         [InlineData("12345")]
         [InlineData("24242")]
         [InlineData("62622")]
-        public void ReturnCorrectPayment_WhenGivenValidIdentifier(string validIdentifier)
+        public async void ReturnCorrectPayment_WhenGivenValidIdentifier(string validIdentifier)
         {
             _context.SeedPayments(validIdentifier);
 
-            var actual = _sut.GetPaymentByPaymentIdentifier(validIdentifier);
+            var actual = await _sut.GetPaymentAsync(validIdentifier);
 
             Assert.NotNull(actual);
             Assert.IsType<PaymentDto>(actual);
@@ -66,11 +67,11 @@ namespace PaymentGatewayTests
         [InlineData("")]
         [InlineData(" ")]
         [InlineData(null)]
-        public void ReturnNull_WhenGivenInvalidIdentifier(string invalidIdentifier)
+        public async void ReturnNull_WhenGivenInvalidIdentifier(string invalidIdentifier)
         {
             _context.SeedPayments("12345");
 
-            var actual = _sut.GetPaymentByPaymentIdentifier(invalidIdentifier);
+            var actual = await _sut.GetPaymentAsync(invalidIdentifier);
 
             Assert.Null(actual);
         }

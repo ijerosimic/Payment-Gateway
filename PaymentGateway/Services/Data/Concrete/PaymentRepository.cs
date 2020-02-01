@@ -2,6 +2,8 @@
 using System.Linq;
 using PaymentGateway.Services.Data.DTOs;
 using PaymentGateway.Services.Data.ExtensionMethods;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace PaymentGateway.Services.Data.Concrete
 {
@@ -14,19 +16,19 @@ namespace PaymentGateway.Services.Data.Concrete
             _ctx = ctx;
         }
 
-        public int SavePaymentToDatabase(PaymentDto payment)
+        public async Task<int> SavePaymentAsync(PaymentDto payment)
         {
-            _ctx.Add(payment.MapToEntity());
+            await _ctx.AddAsync(payment.MapToEntity());
 
-            return _ctx.SaveChanges();
+            return await _ctx.SaveChangesAsync();
         }
 
-        public PaymentDto GetPaymentByPaymentIdentifier(string paymentIdentifier)
+        public async Task<PaymentDto> GetPaymentAsync(string paymentIdentifier)
         {
-            return _ctx.Payments
+            return await _ctx.Payments
                .Where(x => x.PaymentIdentifier.Equals(paymentIdentifier))
                .MapToDto()
-               .FirstOrDefault();
+               .FirstOrDefaultAsync();
         }
     }
 }

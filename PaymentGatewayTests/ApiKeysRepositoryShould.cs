@@ -35,7 +35,7 @@ namespace PaymentGatewayTests
         {
             _context.SeedKeys(validKey);
 
-            var actual = await _sut.IsKeyValid(validKey);
+            var actual = await _sut.IsKeyValidAsync(validKey);
 
             Assert.True(actual);
         }
@@ -48,7 +48,7 @@ namespace PaymentGatewayTests
         {
             _context.SeedKeys("12345");
 
-            var actual = await _sut.IsKeyValid(invalidKey);
+            var actual = await _sut.IsKeyValidAsync(invalidKey);
 
             Assert.False(actual);
         }

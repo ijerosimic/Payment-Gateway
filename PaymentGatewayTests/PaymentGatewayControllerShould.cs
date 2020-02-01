@@ -6,6 +6,7 @@ using PaymentGateway.Controllers;
 using PaymentGateway.Services.BusinessLogic;
 using PaymentGateway.Services.Data;
 using PaymentGateway.Services.Data.DTOs;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace PaymentGatewayTests
@@ -27,28 +28,28 @@ namespace PaymentGatewayTests
         }
 
         [Fact]
-        public void ReturnOkResult_WhenGivenValidPayment()
+        public async void ReturnOkResult_WhenGivenValidPayment()
         {
             _fakeProcessor
                 .Setup(x => x.ValidateRequest(null))
                 .Returns(true);
 
             var expected = StatusCodes.Status200OK;
-            var actual = _sut.SubmitPayment(null) as ObjectResult;
+            var actual = await _sut.SubmitPayment(null) as ObjectResult;
 
             Assert.Equal(expected, actual.StatusCode);
             Assert.Equal("Sucessfully processed payment", actual.Value);
         }
 
         [Fact]
-        public void ReturnExistingPayment_WhenGivenValidID()
+        public async void ReturnExistingPayment_WhenGivenValidID()
         {
             _fakeRepository
-                .Setup(x => x.GetPaymentByPaymentIdentifier("12345"))
-                .Returns(new PaymentDto());
+                .Setup(x => x.GetPaymentAsync("12345"))
+                .Returns(new Task<PaymentDto>(() => new PaymentDto()));
 
             var expected = StatusCodes.Status200OK;
-            var actual = _sut.GetPaymentDetails("12345") as ObjectResult;
+            var actual = await _sut.GetPaymentDetails("12345") as ObjectResult;
 
             Assert.Equal(expected, actual.StatusCode);
             Assert.IsType<PaymentDto>(actual.Value);
@@ -58,14 +59,14 @@ namespace PaymentGatewayTests
         [InlineData("")]
         [InlineData(" ")]
         [InlineData(null)]
-        public void ReturnNotFoundResult_WhenGivenInvalidID(string id)
+        public async void ReturnNotFoundResult_WhenGivenInvalidID(string id)
         {
             _fakeRepository
-              .Setup(x => x.GetPaymentByPaymentIdentifier(id))
-              .Returns(() => null);
+              .Setup(x => x.GetPaymentAsync(id))
+              .Returns(new Task<PaymentDto>(() => null));
 
             var exptected = StatusCodes.Status404NotFound;
-            var actual = _sut.GetPaymentDetails(id) as ObjectResult;
+            var actual = await _sut.GetPaymentDetails(id) as ObjectResult;
 
             Assert.Equal(exptected, actual.StatusCode);
             Assert.Equal("Payment with specified ID not found", actual.Value);
