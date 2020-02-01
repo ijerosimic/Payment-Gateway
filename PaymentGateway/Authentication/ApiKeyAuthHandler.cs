@@ -42,9 +42,7 @@ namespace PaymentGateway.Authentication
                 return AuthenticateResult.NoResult();
             }
 
-            var existingKey = await _keyService.GetValidApiKey(providedApiKey);
-
-            if (string.IsNullOrWhiteSpace(existingKey) == false)
+            if (await _keyService.IsKeyValid(providedApiKey))
             {
                 var claims = new List<Claim>
                 {

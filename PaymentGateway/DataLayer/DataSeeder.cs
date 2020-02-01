@@ -37,15 +37,10 @@ namespace PaymentGateway.DataAccess
 
             if (ctx.ApiKeys.Any() == false)
             {
-                for (var i = 1; i < 10; i++)
+                ctx.Add(new ApiKey
                 {
-                    ctx.Add(new ApiKey
-                    {
-                        ID = i,
-                        //Key = new Random().Next(100000000, 999999999).ToString()
-                        Key = "12345"
-                    });
-                }
+                    Key = "12345"
+                });
             }
 
             ctx.SaveChanges();

@@ -4,6 +4,6 @@ namespace PaymentGateway.Services.Data
 {
     public interface IApiKeyRepository
     {
-        Task<string> GetValidApiKey(string key);
+        Task<bool> IsKeyValid(string key);
     }
 }

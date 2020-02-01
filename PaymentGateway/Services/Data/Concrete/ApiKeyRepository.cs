@@ -9,24 +9,24 @@ namespace PaymentGateway.Services.Data.Concrete
     public class ApiKeyRepository : IApiKeyRepository
     {
         private readonly PaymentGatewayDBContext _ctx;
-        private readonly ILogger<ApiKeyRepository> _logger;
+        private readonly ILogger<IApiKeyRepository> _logger;
 
         public ApiKeyRepository(
             PaymentGatewayDBContext ctx, 
-            ILogger<ApiKeyRepository> logger)
+            ILogger<IApiKeyRepository> logger)
         {
             _ctx = ctx;
             _logger = logger;
         }
 
-        public async Task<string> GetValidApiKey(string key)
+        public async Task<bool> IsKeyValid(string key)
         {
             _logger.LogInformation("Validating API key: {@key}", key);
 
             return await _ctx.ApiKeys
                .Where(x => x.Key.Equals(key))
                .Select(x => x.Key)
-               .FirstOrDefaultAsync();
+               .AnyAsync();
         }
     }
 }
