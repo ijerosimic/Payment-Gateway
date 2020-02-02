@@ -7,27 +7,29 @@ namespace PaymentGateway.Repository.ExtensionMethods
     public static class PaymentMapper
     {
         public static Payment MapToEntity(
-           this PaymentDto paymentRequest)
+           this PaymentRequestDto request)
         {
             return new Payment
             {
-                PaymentIdentifier = paymentRequest.PaymentIdentifier,
-                CardNumber = paymentRequest.CardNumber,
-                CVV = paymentRequest.CVV,
-                Amount = paymentRequest.Amount,
-                Currency = paymentRequest.Currency
+                PaymentIdentifier = request.PaymentIdentifier,
+                CardHolderName = request.CardHolderName,
+                CardNumber = request.CardNumber,
+                CVV = request.CVV,
+                Amount = request.Amount,
+                Currency = request.Currency
             };
         }
 
-        public static IQueryable<PaymentDto> MapToDto(
+        public static IQueryable<PaymentDetailsDto> MapToDto(
             this IQueryable<Payment> entity)
         {
             return entity.Select(x =>
-                new PaymentDto
+                new PaymentDetailsDto
                 {
                     PaymentIdentifier = x.PaymentIdentifier,
                     CardNumber = x.CardNumber,
                     CVV = x.CVV,
+                    CardHolderName = x.CardHolderName,
                     Amount = x.Amount,
                     Currency = x.Currency
                 });

@@ -1,8 +1,7 @@
-﻿namespace PaymentGateway.DataAccess.Models
+﻿namespace PaymentGateway.Repository.DTOs
 {
-    public class Payment
+    public class PaymentDetailsDto
     {
-        public int ID { get; set; }
         public string PaymentIdentifier { get; set; }
         public string CardHolderName { get; set; }
         public string CardNumber { get; set; }

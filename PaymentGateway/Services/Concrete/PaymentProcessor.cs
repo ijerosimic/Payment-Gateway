@@ -13,10 +13,13 @@ namespace PaymentGateway.Services.Concrete
             _logger = logger;
         }
 
-        public bool ValidateRequest(PaymentDto paymentRequest)
+        public bool ValidateRequest(PaymentRequestDto paymentRequest)
         {
             _logger.LogInformation(
                 "Validating request: {@paymentRequest}", paymentRequest);
+
+            //Payment request validation logic could go here
+            //An example of validation is implemented
 
             return paymentRequest.Amount >= 0 &&
                 PaymentDataValidator.ValidateCurrency(paymentRequest.Currency) &&

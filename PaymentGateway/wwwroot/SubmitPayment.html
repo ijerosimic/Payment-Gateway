@@ -20,10 +20,10 @@
                 <hr />
             </div>
             <div class="col-md-4">
-                <!--<div class="form-group">
+                <div class="form-group">
                     <label for="exampleInputEmail1">Card holder name</label>
-                    <input type="text" class="form-control" id="cardHolderName" aria-describedby="emailHelp">
-                </div>-->
+                    <input type="text" class="form-control" id="cardHolderName" aria-describedby="emailHelp" required>
+                </div>
                 <div class="form-row">
                     <div class="col-md-7 mb-7">
                         <label for="validationCustom03">Card Number</label>
@@ -75,7 +75,7 @@
     const paymentData = {};
     const btn = document.getElementById("btnSubmit");
     btn.addEventListener("click", () => {
-        //paymentData.cardHolderName = document.getElementById("cardHolderName").value;
+        paymentData.cardHolderName = document.getElementById("cardHolderName").value;
         paymentData.cardNumber = document.getElementById("cardNumber").value;
         paymentData.cvv = parseInt(document.getElementById("cvv").value);
         paymentData.expiratonMonth = document.getElementById("expirationMonth").value;
@@ -95,10 +95,13 @@
         })
             .then((response) => response.json())
             .then((data) => {
-                console.log('Success:', data);
+                if (data.Status === "Authorized")
+                    alert("Payment processed successfully")
+                else
+                    alert("Error processing payment")
             })
             .catch((error) => {
-                console.error('Error:', error);
+                 alert("Error processing payment")
             });
     })
 </script>

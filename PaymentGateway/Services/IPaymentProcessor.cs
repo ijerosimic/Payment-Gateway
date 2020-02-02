@@ -5,6 +5,6 @@ namespace PaymentGateway.Services
 {
     public interface IPaymentProcessor
     {
-        public bool ValidateRequest(PaymentDto request);
+        public bool ValidateRequest(PaymentRequestDto request);
     }
 }

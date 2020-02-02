@@ -13,17 +13,18 @@ namespace PaymentGateway
         {
             var host = CreateHostBuilder(args).Build();
 
+            //Set up Serilog to write to App Insights
             Log.Logger = new LoggerConfiguration()
                     .WriteTo
                     .ApplicationInsights(TelemetryConverter.Traces)
                     .CreateLogger();
 
+            //Set up In-memory DB
             using (var scope = host.Services.CreateScope())
             {
-                var ctx = scope.ServiceProvider
-                    .GetRequiredService<PaymentGatewayDBContext>();
-
-                DataSeeder.Seed(scope.ServiceProvider);
+                scope.ServiceProvider
+                    .GetRequiredService<PaymentGatewayDBContext>()
+                    .Seed();
             }
 
             host.Run();
@@ -31,15 +32,6 @@ namespace PaymentGateway
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-                //.ConfigureLogging(logging =>
-                //{
-                //    logging.ClearProviders();
-                //    logging.AddApplicationInsights(
-                //        "935cfc58-e3a5-4c61-81b9-d1902e6b3f73");
-
-                //    logging.AddFilter<ApplicationInsightsLoggerProvider>(
-                //        "", LogLevel.Information);
-                //})
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();

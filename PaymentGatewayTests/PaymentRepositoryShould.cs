@@ -30,9 +30,11 @@ namespace PaymentGatewayTests
         {
             var expected = 1;
             var actual = await _sut.SavePaymentAsync(
-                new PaymentDto
+                new PaymentRequestDto
                 {
+                    CardHolderName = "Igor",
                     PaymentIdentifier = "12345",
+                    Status = "Authorized",
                     CardNumber = "12345",
                     CVV = 12345,
                     Amount = 1.0M,
@@ -58,7 +60,7 @@ namespace PaymentGatewayTests
             var actual = await _sut.GetPaymentAsync(validIdentifier);
 
             Assert.NotNull(actual);
-            Assert.IsType<PaymentDto>(actual);
+            Assert.IsType<PaymentDetailsDto>(actual);
             Assert.Equal(validIdentifier, actual.PaymentIdentifier);
         }
 

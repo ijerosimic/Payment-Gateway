@@ -14,8 +14,8 @@ namespace PaymentGatewayTests
     {
         private readonly DbContextOptions<PaymentGatewayDBContext> _options;
         private readonly PaymentGatewayDBContext _context;
-        private readonly IApiKeyRepository _sut;
         private readonly Mock<ILogger<IApiKeyRepository>> _fakeLogger;
+        private readonly IApiKeyRepository _sut;
 
         public ApiKeysRepositoryShould()
         {

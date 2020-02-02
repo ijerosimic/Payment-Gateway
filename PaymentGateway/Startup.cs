@@ -31,6 +31,8 @@ namespace PaymentGateway
             services.AddScoped<IPaymentRepository, PaymentRepository>();
             services.AddScoped<IApiKeyRepository, ApiKeyRepository>();
             services.AddScoped<IPaymentProcessor, PaymentProcessor>();
+            services.AddScoped<IBankService, BankService>();
+            services.AddScoped<IBankEndpoint, BankEndpoint>();
 
             services.AddApplicationInsightsTelemetry();
             services.AddLogging();

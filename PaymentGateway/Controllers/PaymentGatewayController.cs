@@ -12,35 +12,38 @@ namespace PaymentGateway.Controllers
     [Route("[controller]")]
     public class PaymentGatewayController : ControllerBase
     {
-        private readonly ILogger<PaymentGatewayController> _logger;
         private readonly IPaymentRepository _paymentRepository;
         private readonly IPaymentProcessor _paymentProcessor;
+        private readonly IBankService _bankService;
+        private readonly ILogger<PaymentGatewayController> _logger;
 
         public PaymentGatewayController(
-            ILogger<PaymentGatewayController> logger,
-            IPaymentRepository paymentService,
-            IPaymentProcessor paymentProcessor)
+            IPaymentRepository paymentRepository,
+            IPaymentProcessor paymentProcessor,
+            IBankService bankService,
+            ILogger<PaymentGatewayController> logger)
         {
-            _logger = logger;
-            _paymentRepository = paymentService;
+            _paymentRepository = paymentRepository;
             _paymentProcessor = paymentProcessor;
+            _bankService = bankService;
+            _logger = logger;
         }
 
         [Authorize]
         [HttpPost("SubmitPayment")]
-        public async Task<IActionResult> SubmitPayment(PaymentDto payment)
+        public async Task<IActionResult> SubmitPayment(PaymentRequestDto request)
         {
-            if (_paymentProcessor.ValidateRequest(payment) == false)
-                return BadRequest("Invalid payment data");
+            if (_paymentProcessor.ValidateRequest(request) == false)
+                return BadRequest("Invalid data");
 
-            //contact bank
+            var payment = _bankService.SubmitPaymentToBank(request);
 
             await _paymentRepository.SavePaymentAsync(payment);
 
             _logger.LogInformation(
-               "Payment submitted: {@paymentRequest}", payment);
+               "Payment submitted: {@payment}", payment);
 
-            return Ok("Sucessfully processed payment");
+            return Ok(payment);
         }
 
         [Authorize]

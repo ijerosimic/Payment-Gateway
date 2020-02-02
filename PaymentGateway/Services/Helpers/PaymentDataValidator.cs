@@ -16,9 +16,9 @@ namespace PaymentGateway.Services.Helpers
 
         public static bool ValidateCreditCardNumber(string cardNumber)
         {
-            //logic for validating credit card number structure
+            //Logic for validating credit card number structure
 
-            return true;
+            return string.IsNullOrWhiteSpace(cardNumber);
         }
     }
 }

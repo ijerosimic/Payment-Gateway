@@ -18,6 +18,7 @@ namespace PaymentGatewayTests.Helpers
             {
                 ID = 1,
                 PaymentIdentifier = identifier,
+                CardHolderName = "Igor",
                 CardNumber = "12345",
                 CVV = 12345,
                 Amount = 1.0M,

@@ -16,14 +16,14 @@ namespace PaymentGateway.Repository.Concrete
             _ctx = ctx;
         }
 
-        public async Task<int> SavePaymentAsync(PaymentDto payment)
+        public async Task<int> SavePaymentAsync(PaymentRequestDto payment)
         {
             await _ctx.AddAsync(payment.MapToEntity());
 
             return await _ctx.SaveChangesAsync();
         }
 
-        public async Task<PaymentDto> GetPaymentAsync(string paymentIdentifier)
+        public async Task<PaymentDetailsDto> GetPaymentAsync(string paymentIdentifier)
         {
             return await _ctx.Payments
                .Where(x => x.PaymentIdentifier.Equals(paymentIdentifier))

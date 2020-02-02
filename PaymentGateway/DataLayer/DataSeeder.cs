@@ -1,19 +1,14 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using PaymentGateway.DataAccess.Models;
+﻿using PaymentGateway.DataAccess.Models;
 using PaymentGateway.DataLayer.Models;
 using System;
 using System.Linq;
 
 namespace PaymentGateway.DataAccess
 {
-    public class DataSeeder
+    public static class DataSeeder
     {
-        public static void Seed(IServiceProvider serviceProvider)
+        public static void Seed(this PaymentGatewayDBContext ctx)
         {
-            using var ctx = new PaymentGatewayDBContext(
-                serviceProvider.GetRequiredService<DbContextOptions<PaymentGatewayDBContext>>());
-
             if (ctx.Payments.Any() == false)
             {
                 var currencies = new string[]

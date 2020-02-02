@@ -16,6 +16,7 @@ namespace PaymentGatewayTests
         private readonly Mock<ILogger<PaymentGatewayController>> _fakeLogger;
         private readonly Mock<IPaymentProcessor> _fakeProcessor;
         private readonly Mock<IPaymentRepository> _fakeRepository;
+        private readonly Mock<IBankService> _fakeBankService;
         private readonly PaymentGatewayController _sut;
 
         public PaymentGatewayControllerShould()
@@ -23,8 +24,10 @@ namespace PaymentGatewayTests
             _fakeLogger = new Mock<ILogger<PaymentGatewayController>>();
             _fakeProcessor = new Mock<IPaymentProcessor>();
             _fakeRepository = new Mock<IPaymentRepository>();
+            _fakeBankService = new Mock<IBankService>();
             _sut = new PaymentGatewayController(
-                _fakeLogger.Object, _fakeRepository.Object, _fakeProcessor.Object);
+                _fakeRepository.Object, _fakeProcessor.Object, 
+                _fakeBankService.Object, _fakeLogger.Object);
         }
 
         [Fact]
@@ -34,11 +37,15 @@ namespace PaymentGatewayTests
                 .Setup(x => x.ValidateRequest(null))
                 .Returns(true);
 
+            _fakeBankService
+                .Setup(x => x.SubmitPaymentToBank(null))
+                .Returns(new PaymentRequestDto());
+
             var expected = StatusCodes.Status200OK;
             var actual = await _sut.SubmitPayment(null) as ObjectResult;
 
             Assert.Equal(expected, actual.StatusCode);
-            Assert.Equal("Sucessfully processed payment", actual.Value);
+            Assert.IsType<PaymentRequestDto>(actual.Value);
         }
 
         [Fact]
@@ -46,13 +53,13 @@ namespace PaymentGatewayTests
         {
             _fakeRepository
                 .Setup(x => x.GetPaymentAsync("12345"))
-                .Returns(Task.FromResult(new PaymentDto()));
+                .Returns(Task.FromResult(new PaymentDetailsDto()));
 
             var expected = StatusCodes.Status200OK;
             var actual = await _sut.GetPaymentDetails("12345") as ObjectResult;
 
             Assert.Equal(expected, actual.StatusCode);
-            Assert.IsType<PaymentDto>(actual.Value);
+            Assert.IsType<PaymentDetailsDto>(actual.Value);
         }
 
         [Theory]
@@ -63,7 +70,7 @@ namespace PaymentGatewayTests
         {
             _fakeRepository
               .Setup(x => x.GetPaymentAsync(id))
-              .Returns(Task.FromResult<PaymentDto>(null));
+              .Returns(Task.FromResult<PaymentDetailsDto>(null));
 
             var exptected = StatusCodes.Status404NotFound;
             var actual = await _sut.GetPaymentDetails(id) as ObjectResult;
