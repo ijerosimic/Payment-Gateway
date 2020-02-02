@@ -47,10 +47,10 @@ namespace PaymentGateway.Controllers
         }
 
         [Authorize]
-        [HttpGet("PaymentDetails/{id}")]
-        public async Task<IActionResult> GetPaymentDetails(string requestId)
+        [HttpGet("PaymentDetails/{identifier}")]
+        public async Task<IActionResult> GetPaymentDetails(string identifier)
         {
-            var payment = await _paymentRepository.GetPaymentAsync(requestId);
+            var payment = await _paymentRepository.GetPaymentAsync(identifier);
 
             if (payment is null)
                 return NotFound("Payment with specified ID not found");

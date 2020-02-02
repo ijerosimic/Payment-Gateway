@@ -12,6 +12,7 @@ namespace PaymentGateway.Repository.ExtensionMethods
             return new Payment
             {
                 PaymentIdentifier = request.PaymentIdentifier,
+                Status = request.Status,
                 CardHolderName = request.CardHolderName,
                 CardNumber = request.CardNumber,
                 CVV = request.CVV,
@@ -27,6 +28,7 @@ namespace PaymentGateway.Repository.ExtensionMethods
                 new PaymentDetailsDto
                 {
                     PaymentIdentifier = x.PaymentIdentifier,
+                    Status = x.Status,
                     CardNumber = x.CardNumber,
                     CVV = x.CVV,
                     CardHolderName = x.CardHolderName,

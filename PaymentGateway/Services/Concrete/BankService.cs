@@ -75,9 +75,7 @@ namespace PaymentGateway.Services.Concrete
         {
             Authorized,
             Unathorized,
-            Declined,
-            BadGateway,
-            InvalidData
+            Declined
         }
 
         private StatusEnum GetStatus()

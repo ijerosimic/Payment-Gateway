@@ -18,7 +18,7 @@ namespace PaymentGateway.Services.Helpers
         {
             //Logic for validating credit card number structure
 
-            return string.IsNullOrWhiteSpace(cardNumber);
+            return string.IsNullOrWhiteSpace(cardNumber) == false;
         }
     }
 }

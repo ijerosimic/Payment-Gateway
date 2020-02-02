@@ -1,0 +1,65 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://localhost:44369/SubmitPayment.html">Submit payment</a>
+                    </li>
+                    <li class="nav-item  active">
+                        <a class="nav-link" href="https://localhost:44369/PaymentDetails.html">Payment details <span class="sr-only">(current)</span></a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <main role="main" class="pb-3">
+        <div class="container">
+            <div class="col-md-6">
+                <h1>Payment details</h1>
+                <hr />
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Payment identifier</label>
+                    <input type="text" class="form-control" id="paymentIdentifier" aria-describedby="emailHelp">
+                </div>
+                <div class="form-group">
+                    <label for="validationCustom03">API Key</label>
+                    <input type="password" class="form-control" id="apiKey">
+                </div>
+                <button type="button" class="btn btn-primary" id="btnRequestDetails">Request</button>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
+<script>
+    const paymentData = {};
+    const btn = document.getElementById("btnRequestDetails");
+    btn.addEventListener("click", () => {
+        identifier = document.getElementById("paymentIdentifier").value;
+        fetch('https://paymentsprocessor.azurewebsites.net/PaymentGateway/PaymentDetails/' + identifier, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'PaymentGatewayApiKey': document.getElementById("apiKey").value
+            }
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                alert(JSON.stringify(data));
+            })
+            .catch((error) => {
+                console.log(error);
+                alert("Error fetching payment details")
+            });
+    })
+</script>

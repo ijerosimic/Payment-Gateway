@@ -7,9 +7,16 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Payment processor</a>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="https://localhost:44369/SubmitPayment.html">Submit payment <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://localhost:44369/PaymentDetails.html">Payment details</a>
+                    </li>
+                </ul>
             </div>
         </nav>
     </header>
@@ -22,35 +29,35 @@
             <div class="col-md-4">
                 <div class="form-group">
                     <label for="exampleInputEmail1">Card holder name</label>
-                    <input type="text" class="form-control" id="cardHolderName" aria-describedby="emailHelp" required>
+                    <input type="text" class="form-control" id="cardHolderName" aria-describedby="emailHelp">
                 </div>
                 <div class="form-row">
                     <div class="col-md-7 mb-7">
                         <label for="validationCustom03">Card Number</label>
-                        <input type="text" class="form-control" id="cardNumber" required>
+                        <input type="text" class="form-control" id="cardNumber">
                     </div>
                     <div class="col-md-5 mb-4">
                         <label for="validationCustom04">CVV</label>
-                        <input type="text" class="form-control" id="cvv" required>
+                        <input type="text" class="form-control" id="cvv">
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="col-md-7 mb-7">
                         <label for="validationCustom03">Expiration month</label>
-                        <input type="number" class="form-control" id="expirationMonth" required>
+                        <input type="number" class="form-control" id="expirationMonth">
                     </div>
                     <div class="col-md-5 mb-4">
                         <label for="validationCustom04">Expiration year</label>
-                        <input type="number" class="form-control" id="expirationYear" required>
+                        <input type="number" class="form-control" id="expirationYear">
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="exampleInputPassword1">Amount</label>
-                    <input type="number" class="form-control" id="amount" required>
+                    <input type="number" class="form-control" id="amount">
                 </div>
                 <div class="form-group">
                     <label for="exampleInputPassword1">Currency</label>
-                    <select class="form-control" id="currency" required>
+                    <select class="form-control" id="currency">
                         <option>HRK</option>
                         <option>EUR</option>
                         <option>GBP</option>
@@ -63,7 +70,7 @@
                 </div>
                 <div class="form-group">
                     <label for="exampleInputPassword1">API Key</label>
-                    <input type="password" class="form-control" id="apiKey" required>
+                    <input type="password" class="form-control" id="apiKey">
                 </div>
                 <button type="button" class="btn btn-primary" id="btnSubmit">Submit</button>
             </div>
@@ -84,8 +91,7 @@
         paymentData.currency = document.getElementById("currency").value;
         paymentData.paymentIdentifier = "1231414";
 
-        //fetch('https://paymentsprocessor.azurewebsites.net/PaymentGateway/SubmitPayment', {
-        fetch('https://localhost:44369/PaymentGateway/SubmitPayment', {
+        fetch('https://paymentsprocessor.azurewebsites.net/PaymentGateway/SubmitPayment', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -95,13 +101,18 @@
         })
             .then((response) => response.json())
             .then((data) => {
-                if (data.Status === "Authorized")
+                console.log(data)
+                if (data.status === "Authorized") {
                     alert("Payment processed successfully")
-                else
+                }
+                else {
                     alert("Error processing payment")
+                }
+
+                alert(JSON.stringify({ "Status": data.status, "PaymentIdentifier": data.paymentIdentifier }))
             })
             .catch((error) => {
-                 alert("Error processing payment")
+                alert("Invalid data. Please make sure all fields are filled.")
             });
     })
 </script>

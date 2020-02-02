@@ -28,6 +28,16 @@ namespace PaymentGateway.DataAccess
                         Currency = currencies[new Random().Next(currencies.Length - 1)]
                     });
                 };
+
+                ctx.Add(new Payment
+                {
+                    ID = 51,
+                    PaymentIdentifier = "12345",
+                    CardNumber = new Random().Next(100000000, 999999999).ToString(),
+                    CVV = new Random().Next(000, 999),
+                    Amount = Math.Round(Convert.ToDecimal(new Random().NextDouble() * (99999.99 - 0.1) + 99999.99), 2),
+                    Currency = currencies[new Random().Next(currencies.Length - 1)]
+                });
             }
 
             if (ctx.ApiKeys.Any() == false)
