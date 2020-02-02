@@ -33,16 +33,18 @@ namespace PaymentGatewayTests
         [Fact]
         public async void ReturnOkResult_WhenGivenValidPayment()
         {
+            var request = new PaymentRequestDto();
+
             _fakeProcessor
-                .Setup(x => x.ValidateRequest(null))
+                .Setup(x => x.ValidateRequest(request))
                 .Returns(true);
 
             _fakeBankService
-                .Setup(x => x.SubmitPaymentToBank(null))
-                .Returns(new PaymentRequestDto());
+                .Setup(x => x.SubmitPaymentToBank(request))
+                .Returns(request);
 
             var expected = StatusCodes.Status200OK;
-            var actual = await _sut.SubmitPayment(null) as ObjectResult;
+            var actual = await _sut.SubmitPayment(request) as ObjectResult;
 
             Assert.Equal(expected, actual.StatusCode);
             Assert.IsType<PaymentRequestDto>(actual.Value);

@@ -21,17 +21,21 @@ namespace PaymentGatewayTests
             _sut = new BankService(_fakeLogger.Object, _bankEndpoint.Object);
         }
 
-        //[Fact]
-        //public void ReturnBankResponse_WhenCalled()
-        //{
-        //    _bankEndpoint
-        //        .Verify(() => Ca)
-        //        .Returns("");
+        [Fact]
+        public void ReturnsPaymentRequest_WhenCalled()
+        {
+            var request = new PaymentRequestDto();
 
-        //    var actual = _sut.SubmitPaymentToBank(new PaymentRequestDto());
+            _bankEndpoint
+                .Setup(x => x.SubmitPaymentRequest(request))
+                .Returns(BankResponse.CreateResponse());
 
-        //    Assert.NotNull(actual);
-        //    Assert.IsType<PaymentRequestDto>(actual);
-        //}
+            var actual = _sut.SubmitPaymentToBank(request);
+
+            Assert.NotNull(actual);
+            Assert.IsType<PaymentRequestDto>(actual);
+            Assert.False(string.IsNullOrWhiteSpace(actual.PaymentIdentifier));
+            Assert.False(string.IsNullOrWhiteSpace(actual.Status));
+        }
     }
 }

@@ -32,13 +32,7 @@ namespace PaymentGatewayTests
             var actual = await _sut.SavePaymentAsync(
                 new PaymentRequestDto
                 {
-                    CardHolderName = "Igor",
-                    PaymentIdentifier = "12345",
-                    Status = "Authorized",
-                    CardNumber = "12345",
-                    CVV = 12345,
-                    Amount = 1.0M,
-                    Currency = "EUR"
+                    PaymentIdentifier = "12345"
                 });
 
             var paymentSaved = await _context.Payments

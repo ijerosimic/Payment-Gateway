@@ -27,7 +27,7 @@ namespace PaymentGateway.Services.Concrete
             _logger.LogInformation(
                 "Forwarding payment request to bank. Request: {@request}", request);
 
-            var response = _bankEndpoint.SubmitPayment(request);
+            var response = _bankEndpoint.SubmitPaymentRequest(request);
 
             _logger.LogInformation(
                 "Received response from bank: {@response}", response);
@@ -46,12 +46,12 @@ namespace PaymentGateway.Services.Concrete
     /// </summary>
     public interface IBankEndpoint
     {
-        public BankResponse SubmitPayment(PaymentRequestDto paymentData);
+        public BankResponse SubmitPaymentRequest(PaymentRequestDto paymentData);
     }
 
     public class BankEndpoint : IBankEndpoint
     {
-        public BankResponse SubmitPayment(PaymentRequestDto paymentData)
+        public BankResponse SubmitPaymentRequest(PaymentRequestDto paymentData)
         {
             return BankResponse.CreateResponse();
         }
