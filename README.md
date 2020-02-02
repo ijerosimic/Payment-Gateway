@@ -8,6 +8,8 @@ https://paymentsprocessor.azurewebsites.net/SubmitPayment.html
 A payment gateway API for submitting payment requests and fetching details of past payments.
 Includes 2 static html pages serving as very basic UI.
 
+The app is hosted on Azure. Application insights are enabled and logs are written to insights using using Serilog sinks.
+
 .NET Core 3.1 / Javascript / xUnit
 
 [Submit payment](https://paymentsprocessor.azurewebsites.net/SubmitPayment.html)
