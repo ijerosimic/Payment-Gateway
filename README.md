@@ -39,4 +39,5 @@ The app is hosted on Azure. Application insights are enabled and logs are writte
    * API endpoint for fetching details of past payments. Accepts payment identifier in url
   
 The API's require an api key in the request header
+
 API Key = 12345
