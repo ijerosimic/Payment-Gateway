@@ -20,7 +20,7 @@ The app is hosted on Azure. Application insights are enabled and logs are writte
 1. https://paymentsprocessor.azurewebsites.net/PaymentGateway/SubmitPayment
    * API endpoint for submitting payments
    * Accepts request object 
-   *   ```
+       ```
 	    string PaymentIdentifier
         string Status
         string CardHolderName
@@ -35,6 +35,6 @@ The app is hosted on Azure. Application insights are enabled and logs are writte
 		```
 		
 2. https://paymentsprocessor.azurewebsites.net/PaymentGateway/PaymentDetails/{identifier}
-   * API endpoint for fetching details of past payments
+   * API endpoint for fetching details of past payments. Accepts payment identifier in url
   
 API Key = 12345
