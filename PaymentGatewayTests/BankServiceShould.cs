@@ -1,9 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
 using Moq;
-using PaymentGateway.Repository;
+using PaymentGateway.BussinesLogic;
+using PaymentGateway.BussinesLogic.Concrete;
 using PaymentGateway.Repository.DTOs;
-using PaymentGateway.Services;
-using PaymentGateway.Services.Concrete;
 using Xunit;
 
 namespace PaymentGatewayTests

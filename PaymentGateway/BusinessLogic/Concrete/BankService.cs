@@ -2,7 +2,7 @@
 using PaymentGateway.Repository.DTOs;
 using System;
 
-namespace PaymentGateway.Services.Concrete
+namespace PaymentGateway.BussinesLogic.Concrete
 {
     public class BankService : IBankService
     {

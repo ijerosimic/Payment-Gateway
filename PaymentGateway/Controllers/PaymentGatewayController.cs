@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using PaymentGateway.BussinesLogic;
 using PaymentGateway.Repository;
 using PaymentGateway.Repository.DTOs;
-using PaymentGateway.Services;
 using System.Threading.Tasks;
 
 namespace PaymentGateway.Controllers
