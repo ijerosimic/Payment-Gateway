@@ -27,6 +27,12 @@ namespace PaymentGateway.Authentication
             _keyService = keyService;
         }
 
+        /// <summary>
+        /// Validate the provided API key
+        /// If the header does not exist, or the key does not exist or is invalid,
+        /// do not authenticate the user.
+        /// If the key exists and is valid, create a new identity and add name claim 
+        /// </summary>
         protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
         {
             if (!Request.Headers.TryGetValue(ApiKeyHeaderName, out var apiKeyHeaderValues))
