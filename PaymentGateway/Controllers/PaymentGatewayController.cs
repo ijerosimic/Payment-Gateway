@@ -41,8 +41,6 @@ namespace PaymentGateway.Controllers
 
             await _paymentRepository.SavePaymentAsync(payment);
 
-            throw new System.Exception();
-
             _logger.LogInformation(
                "Payment submitted: {@payment}", payment);
 

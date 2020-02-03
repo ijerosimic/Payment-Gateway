@@ -69,6 +69,7 @@ namespace PaymentGateway
                 var res = JsonConvert.SerializeObject(new { message = "An error occured" });
                 await context.Response.WriteAsync(res);
             }));
+
             app.UseStaticFiles();
             app.UseHttpsRedirection();
             app.UseRouting();
