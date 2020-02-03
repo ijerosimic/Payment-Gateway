@@ -31,7 +31,7 @@ namespace PaymentGatewayTests
         }
 
         [Fact]
-        public async void ReturnOkResult_WhenGivenValidPayment()
+        public async void ReturnOkResult_WhenGivenValidPaymentData()
         {
             var request = new PaymentRequestDto();
 
@@ -48,6 +48,21 @@ namespace PaymentGatewayTests
 
             Assert.Equal(expected, actual.StatusCode);
             Assert.IsType<PaymentRequestDto>(actual.Value);
+        }
+
+        [Fact]
+        public async void ReturnBadRequestResult_WhenGivenInvalidPaymentData()
+        {
+            var request = new PaymentRequestDto();
+
+            _fakeProcessor
+                .Setup(x => x.ValidateRequest(null))
+                .Returns(false);
+
+            var expected = StatusCodes.Status400BadRequest;
+            var actual = await _sut.SubmitPayment(null) as BadRequestResult;
+
+            Assert.Equal(expected, actual.StatusCode);
         }
 
         [Fact]
@@ -75,10 +90,9 @@ namespace PaymentGatewayTests
               .Returns(Task.FromResult<PaymentDetailsDto>(null));
 
             var exptected = StatusCodes.Status404NotFound;
-            var actual = await _sut.GetPaymentDetails(id) as ObjectResult;
+            var actual = await _sut.GetPaymentDetails(id) as NotFoundResult;
 
             Assert.Equal(exptected, actual.StatusCode);
-            Assert.Equal("Payment with specified ID not found", actual.Value);
         }
     }
 }
