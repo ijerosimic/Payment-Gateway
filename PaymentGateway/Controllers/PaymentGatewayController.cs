@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using PaymentGateway.BussinesLogic;
 using PaymentGateway.Repository;
 using PaymentGateway.Repository.DTOs;
@@ -34,11 +35,13 @@ namespace PaymentGateway.Controllers
         public async Task<IActionResult> SubmitPayment(PaymentRequestDto request)
         {
             if (_paymentProcessor.ValidateRequest(request) == false)
-                return BadRequest("Invalid data");
+                return BadRequest();
 
             var payment = await _bankService.SubmitPaymentToBank(request);
 
             await _paymentRepository.SavePaymentAsync(payment);
+
+            throw new System.Exception();
 
             _logger.LogInformation(
                "Payment submitted: {@payment}", payment);
@@ -50,13 +53,13 @@ namespace PaymentGateway.Controllers
         [HttpGet("PaymentDetails/{identifier}")]
         public async Task<IActionResult> GetPaymentDetails(string identifier)
         {
+            _logger.LogInformation(
+                "Payment details requested: {identifier}", identifier);
+
             var payment = await _paymentRepository.GetPaymentAsync(identifier);
 
             if (payment is null)
-                return NotFound("Payment with specified ID not found");
-
-            _logger.LogInformation(
-                "Payment details requested: {@payment}", payment);
+                return NotFound();
 
             return Ok(payment);
         }

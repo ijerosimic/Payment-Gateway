@@ -25,7 +25,9 @@ namespace PaymentGateway.DataAccess
                         CardNumber = new Random().Next(100000000, 999999999).ToString(),
                         CVV = new Random().Next(000, 999),
                         Amount = Math.Round(Convert.ToDecimal(new Random().NextDouble() * (99999.99 - 0.1) + 99999.99), 2),
-                        Currency = currencies[new Random().Next(currencies.Length - 1)]
+                        Currency = currencies[new Random().Next(currencies.Length - 1)],
+                        Status = "Authorized",
+                        CardHolderName = "John Wick"
                     });
                 };
 
@@ -36,7 +38,9 @@ namespace PaymentGateway.DataAccess
                     CardNumber = new Random().Next(100000000, 999999999).ToString(),
                     CVV = new Random().Next(000, 999),
                     Amount = Math.Round(Convert.ToDecimal(new Random().NextDouble() * (99999.99 - 0.1) + 99999.99), 2),
-                    Currency = currencies[new Random().Next(currencies.Length - 1)]
+                    Currency = currencies[new Random().Next(currencies.Length - 1)],
+                    Status = "Declined",
+                    CardHolderName = "John Wick"
                 });
             }
 

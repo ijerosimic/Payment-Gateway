@@ -99,20 +99,27 @@
             },
             body: JSON.stringify(paymentData),
         })
-            .then((response) => response.json())
-            .then((data) => {
-                console.log(data)
-                if (data.status === "Authorized") {
-                    alert("Payment processed successfully")
-                }
-                else {
-                    alert("Error processing payment")
-                }
-
-                alert(JSON.stringify({ "Status": data.status, "PaymentIdentifier": data.paymentIdentifier }))
+            .then((response) => {
+                if (response.status === 400)
+                    throw new Error("Invalid data. Please make sure to enter valid data in all of the fields.")
+                if (response.status === 500)
+                    throw new Error()
+                return response.json();
             })
+            .then((data) => {
+                if (data.status === "Authorized") 
+                    alert("Payment processed successfully.")
+                else
+                    alert("Payment request unsuccesful.")
+
+                    if (data.status && data.paymentIdentifier)
+                        alert(JSON.stringify({ "Status": data.status, "PaymentIdentifier": data.paymentIdentifier }))
+                })
             .catch((error) => {
-                alert("Invalid data. Please make sure all fields are filled.")
+                if (error.message)
+                    alert(error.message)
+                else
+                    alert("An error occured submitting payment. Please try again.")
             });
     })
 </script>

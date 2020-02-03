@@ -53,13 +53,21 @@
                 'PaymentGatewayApiKey': document.getElementById("apiKey").value
             }
         })
-            .then((response) => response.json())
+            .then((response) => {
+                if (response.status === 404)
+                    throw new Error("Payment with the specified identifer not found.")
+                if (response.status === 500)
+                    throw new Error()
+                return response.json()
+            })
             .then((data) => {
                 alert(JSON.stringify(data));
             })
             .catch((error) => {
-                console.log(error);
-                alert("Error fetching payment details")
+                if (error.message)
+                    alert(error.message)
+                else
+                    alert("Error fetching payment details. Please try again.")
             });
     })
 </script>
