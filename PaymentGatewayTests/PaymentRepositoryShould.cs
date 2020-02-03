@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using Moq;
 using PaymentGateway.DataAccess;
 using PaymentGateway.Repository;
 using PaymentGateway.Repository.Concrete;
@@ -12,15 +14,17 @@ namespace PaymentGatewayTests
 {
     public class PaymentRepositoryShould : IDisposable
     {
+        private readonly Mock<ILogger<IPaymentRepository>> _fakeLogger;
         private readonly DbContextOptions<PaymentGatewayDBContext> _options;
         private readonly PaymentGatewayDBContext _context;
         private readonly IPaymentRepository _sut;
 
         public PaymentRepositoryShould()
         {
+            _fakeLogger = new Mock<ILogger<IPaymentRepository>>();
             _options = InMemorySQLLite.CreateOptions<PaymentGatewayDBContext>();
             _context = new PaymentGatewayDBContext(_options);
-            _sut = new PaymentRepository(_context);
+            _sut = new PaymentRepository(_context, _fakeLogger.Object);
 
             _context.Database.EnsureCreated();
         }

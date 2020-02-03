@@ -1,9 +1,10 @@
 ﻿using PaymentGateway.Repository.DTOs;
+using System.Threading.Tasks;
 
 namespace PaymentGateway.BussinesLogic
 {
     public interface IBankService
     {
-        public PaymentRequestDto SubmitPaymentToBank(PaymentRequestDto payment);
+        public Task<PaymentRequestDto> SubmitPaymentToBank(PaymentRequestDto payment);
     }
 }

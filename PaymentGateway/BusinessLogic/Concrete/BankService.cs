@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using PaymentGateway.Repository.DTOs;
 using System;
+using System.Threading.Tasks;
 
 namespace PaymentGateway.BussinesLogic.Concrete
 {
@@ -22,12 +23,12 @@ namespace PaymentGateway.BussinesLogic.Concrete
         /// The Bank receives the payment request, processes it and returns an object
         /// This method cals a presumed Bank Api endpoint or some other resource
         /// </summary>
-        public PaymentRequestDto SubmitPaymentToBank(PaymentRequestDto request)
+        public async Task<PaymentRequestDto> SubmitPaymentToBank(PaymentRequestDto request)
         {
             _logger.LogInformation(
                 "Forwarding payment request to bank. Request: {@request}", request);
 
-            var response = _bankEndpoint.SubmitPaymentRequest(request);
+            var response = await _bankEndpoint.SubmitPaymentRequest(request);
 
             _logger.LogInformation(
                 "Received response from bank: {@response}", response);
@@ -46,13 +47,16 @@ namespace PaymentGateway.BussinesLogic.Concrete
     /// </summary>
     public interface IBankEndpoint
     {
-        public BankResponse SubmitPaymentRequest(PaymentRequestDto paymentData);
+        public Task<BankResponse> SubmitPaymentRequest(PaymentRequestDto paymentData);
     }
 
     public class BankEndpoint : IBankEndpoint
     {
-        public BankResponse SubmitPaymentRequest(PaymentRequestDto paymentData)
+        public async Task<BankResponse> SubmitPaymentRequest(PaymentRequestDto paymentData)
         {
+            //We can assume that the bank would need 
+            //a certain amount of time to process the payment
+            await Task.Delay(2000);
             return BankResponse.CreateResponse();
         }
     }

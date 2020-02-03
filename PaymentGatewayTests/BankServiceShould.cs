@@ -3,6 +3,7 @@ using Moq;
 using PaymentGateway.BussinesLogic;
 using PaymentGateway.BussinesLogic.Concrete;
 using PaymentGateway.Repository.DTOs;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace PaymentGatewayTests
@@ -21,15 +22,15 @@ namespace PaymentGatewayTests
         }
 
         [Fact]
-        public void ReturnsPaymentRequest_WhenCalled()
+        public async void ReturnsPaymentRequest_WhenCalled()
         {
             var request = new PaymentRequestDto();
 
             _bankEndpoint
                 .Setup(x => x.SubmitPaymentRequest(request))
-                .Returns(BankResponse.CreateResponse());
+                .Returns(Task.FromResult(BankResponse.CreateResponse()));
 
-            var actual = _sut.SubmitPaymentToBank(request);
+            var actual = await _sut.SubmitPaymentToBank(request);
 
             Assert.NotNull(actual);
             Assert.IsType<PaymentRequestDto>(actual);

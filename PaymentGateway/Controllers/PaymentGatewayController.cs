@@ -36,7 +36,7 @@ namespace PaymentGateway.Controllers
             if (_paymentProcessor.ValidateRequest(request) == false)
                 return BadRequest("Invalid data");
 
-            var payment = _bankService.SubmitPaymentToBank(request);
+            var payment = await _bankService.SubmitPaymentToBank(request);
 
             await _paymentRepository.SavePaymentAsync(payment);
 
