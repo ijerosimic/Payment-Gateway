@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using PaymentGateway.Authentication;
 using PaymentGateway.Authentication.ExtensionMethods;
 using PaymentGateway.BussinesLogic;
 using PaymentGateway.BussinesLogic.Concrete;
@@ -43,6 +44,10 @@ namespace PaymentGateway
             services.AddApplicationInsightsTelemetry();
             services.AddLogging();
 
+            /// <summary>
+            /// Set up the defeault authentication scheme
+            /// Configure the custom authentication handler via AddApiKeySupport
+            /// </summary>
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = ApiKeyAuthenticationOptions.DefaultScheme;

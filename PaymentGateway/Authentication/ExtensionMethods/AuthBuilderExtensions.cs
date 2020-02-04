@@ -6,6 +6,9 @@ namespace PaymentGateway.Authentication.ExtensionMethods
 {
     public static class AuthBuilderExtensions
     {
+        /// <summary>
+        /// Configure the ApiKeyAuthHandler class to handle ApiKeyAuthenticationOptions
+        /// </summary>
         public static AuthenticationBuilder AddApiKeySupport(
             this AuthenticationBuilder authenticationBuilder, 
             Action<ApiKeyAuthenticationOptions> options)

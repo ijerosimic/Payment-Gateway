@@ -37,7 +37,7 @@ namespace PaymentGateway.Authentication
         {
             if (!Request.Headers.TryGetValue(ApiKeyHeaderName, out var apiKeyHeaderValues))
             {
-                return AuthenticateResult.NoResult();
+                return AuthenticateResult.Fail("No API key request header provided.");
             }
 
             var providedApiKey = apiKeyHeaderValues.FirstOrDefault();
@@ -45,7 +45,7 @@ namespace PaymentGateway.Authentication
             if (apiKeyHeaderValues.Count == 0 || 
                 string.IsNullOrWhiteSpace(providedApiKey))
             {
-                return AuthenticateResult.NoResult();
+                return AuthenticateResult.Fail("No API key provided or API key invalid.");
             }
 
             if (await _keyService.IsKeyValidAsync(providedApiKey))
