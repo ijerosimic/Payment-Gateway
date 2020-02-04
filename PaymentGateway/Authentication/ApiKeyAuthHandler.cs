@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using PaymentGateway.Repository;
+using Serilog.Core;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
@@ -35,8 +36,9 @@ namespace PaymentGateway.Authentication
         /// </summary>
         protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
         {
-            if (!Request.Headers.TryGetValue(ApiKeyHeaderName, out var apiKeyHeaderValues))
+            if (Request.Headers.TryGetValue(ApiKeyHeaderName, out var apiKeyHeaderValues) == false)
             {
+                Logger.LogInformation("Failure retrieving API key from request header. Path: {path}", Request.Path.Value);
                 return AuthenticateResult.Fail("No API key request header provided.");
             }
 
@@ -45,6 +47,7 @@ namespace PaymentGateway.Authentication
             if (apiKeyHeaderValues.Count == 0 || 
                 string.IsNullOrWhiteSpace(providedApiKey))
             {
+                Logger.LogInformation("Invalid or null API key. Key: {key}", providedApiKey);
                 return AuthenticateResult.Fail("No API key provided or API key invalid.");
             }
 
@@ -59,6 +62,8 @@ namespace PaymentGateway.Authentication
                 var identities = new List<ClaimsIdentity> { identity };
                 var principal = new ClaimsPrincipal(identities);
                 var ticket = new AuthenticationTicket(principal, Options.Scheme);
+
+                Logger.LogInformation("Succesfully validated API key. Auth ticket: {@ticket}", ticket);
 
                 return AuthenticateResult.Success(ticket);
             }
