@@ -40,7 +40,7 @@ namespace PaymentGatewayTests
                 .Returns(true);
 
             _fakeBankService
-                .Setup(x => x.SubmitPaymentToBank(request))
+                .Setup(x => x.SubmitPaymentToBankAsync(request))
                 .Returns(Task.FromResult(request));
 
             var expected = StatusCodes.Status200OK;

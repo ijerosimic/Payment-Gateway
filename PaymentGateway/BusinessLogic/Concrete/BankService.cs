@@ -23,7 +23,7 @@ namespace PaymentGateway.BussinesLogic.Concrete
         /// The Bank receives the payment request, processes it and returns an object
         /// This method cals a presumed Bank Api endpoint or some other resource
         /// </summary>
-        public async Task<PaymentRequestDto> SubmitPaymentToBank(PaymentRequestDto request)
+        public async Task<PaymentRequestDto> SubmitPaymentToBankAsync(PaymentRequestDto request)
         {
             _logger.LogInformation(
                 "Forwarding payment request to bank. Request: {@request}", request);

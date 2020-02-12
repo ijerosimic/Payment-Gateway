@@ -37,7 +37,7 @@ namespace PaymentGateway.Controllers
             if (_paymentProcessor.ValidateRequest(request) == false)
                 return BadRequest();
 
-            var payment = await _bankService.SubmitPaymentToBank(request);
+            var payment = await _bankService.SubmitPaymentToBankAsync(request);
 
             await _paymentRepository.SavePaymentAsync(payment);
 

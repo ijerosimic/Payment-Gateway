@@ -30,7 +30,7 @@ namespace PaymentGatewayTests
                 .Setup(x => x.SubmitPaymentRequest(request))
                 .Returns(Task.FromResult(BankResponse.CreateResponse()));
 
-            var actual = await _sut.SubmitPaymentToBank(request);
+            var actual = await _sut.SubmitPaymentToBankAsync(request);
 
             Assert.NotNull(actual);
             Assert.IsType<PaymentRequestDto>(actual);

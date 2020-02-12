@@ -5,6 +5,6 @@ namespace PaymentGateway.BussinesLogic
 {
     public interface IBankService
     {
-        public Task<PaymentRequestDto> SubmitPaymentToBank(PaymentRequestDto payment);
+        public Task<PaymentRequestDto> SubmitPaymentToBankAsync(PaymentRequestDto payment);
     }
 }
