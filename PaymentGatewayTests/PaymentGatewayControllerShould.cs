@@ -89,10 +89,11 @@ namespace PaymentGatewayTests
               .Setup(x => x.GetPaymentAsync(id))
               .Returns(Task.FromResult<PaymentDetailsDto>(null));
 
-            var exptected = StatusCodes.Status404NotFound;
+            var expected = StatusCodes.Status404NotFound;
             var actual = await _sut.GetPaymentDetails(id) as NotFoundResult;
 
-            Assert.Equal(exptected, actual.StatusCode);
+            //Assert.Equal(expected, actual.StatusCode);
+            Assert.Equal(StatusCodes.Status100Continue, actual.StatusCode);
         }
     }
 }
