@@ -92,8 +92,7 @@ namespace PaymentGatewayTests
             var expected = StatusCodes.Status404NotFound;
             var actual = await _sut.GetPaymentDetails(id) as NotFoundResult;
 
-            //Assert.Equal(expected, actual.StatusCode);
-            Assert.Equal(StatusCodes.Status100Continue, actual.StatusCode);
+            Assert.Equal(expected, actual.StatusCode);
         }
     }
 }
