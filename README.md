@@ -3,7 +3,6 @@
 [![Build Status](https://dev.azure.com/igorjerosimic1/PaymentGateway/_apis/build/status/paymentsprocessor%20-%20CI?branchName=master)](https://dev.azure.com/igorjerosimic1/PaymentGateway/_build/latest?definitionId=5&branchName=master)
 
 ![](https://vsrm.dev.azure.com/igorjerosimic1/_apis/public/Release/badge/22fa49e6-00da-4979-826e-6c44a99f4f44/1/1)
-(https://dev.azure.com/igorjerosimic1/PaymentGateway/release)
 
 # Description
 A payment gateway API for submitting payment requests and fetching details of past payments.
